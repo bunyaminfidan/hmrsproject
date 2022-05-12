@@ -9,7 +9,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import lombok.Data;
-
+//test2
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

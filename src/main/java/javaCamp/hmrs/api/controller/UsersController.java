@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.business.abstracts.UserService;
+import javaCamp.hmrs.core.utilities.results.DataResult;
+import javaCamp.hmrs.entites.concretes.JobPosition;
 import javaCamp.hmrs.entites.concretes.User;
 
 @RestController
@@ -25,7 +27,7 @@ public class UsersController {
 	}
 
 	@GetMapping("/getall")
-	List<User> getall() {
+	DataResult<List<User>> getall() {
 		return this.userService.getAll();
 	}
 

@@ -21,4 +21,6 @@ public class JobPosition {
 	@Column(name = "name")
 	private String name;
 //test1
+	//test2
+	//test3
 }

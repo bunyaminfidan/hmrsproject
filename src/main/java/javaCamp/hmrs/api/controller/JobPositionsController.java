@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.business.abstracts.JobPositionService;
+import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.entites.concretes.JobPosition;
 
 @RestController
@@ -23,7 +24,7 @@ public class JobPositionsController {
 	}
 
 	@GetMapping("/getall")
-	List<JobPosition> getAll() {
+	DataResult<List<JobPosition>> getAll() {
 		return this.jobPositionService.getAll();
 	}
 

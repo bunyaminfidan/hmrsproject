@@ -15,12 +15,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "employer_users")
 public class EmployerUser extends User {
-
-	@Column(name = "user_id")
-	private int userId;
 
 	@Column(name = "company_name")
 	private String companyName;
@@ -28,7 +25,7 @@ public class EmployerUser extends User {
 	@Column(name = "website")
 	private String website;
 
-	@Column(name="phone_number")
+	@Column(name = "phone_number")
 	private String phoneNumber;
 
 }

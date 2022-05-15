@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.UserService;
+import javaCamp.hmrs.core.utilities.helpers.IsEmailRegistered;
 import javaCamp.hmrs.core.utilities.results.DataResult;
+import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
@@ -31,18 +33,22 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result emailCheck(User user) {
+	public Result add(User user) {
 
-		List<User> users = this.userDao.findByEmail(user.getEmail());
+		if (IsEmailRegistered.userEmailCheck(user.getEmail(), userDao)) {
 
-		if (!users.isEmpty()) {
-
-			return new ErrorResult("This e-mail is already registered");
+			return new ErrorResult("Email sistemde kayıtlı");
 		} else {
-
-			return new SuccessResult();
-
+			this.userDao.save(user);
+			return new SuccessResult("Kullanıcı kaydedildi");
 		}
+
+	}
+
+	@Override
+	public DataResult<User> getByEmail(String email) {
+
+		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
 
 	}
 

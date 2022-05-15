@@ -3,6 +3,7 @@ package javaCamp.hmrs.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,15 @@ public class UsersController {
 		this.userService = userService;
 	}
 
-	@GetMapping("/getallemail")
-	Result getall(@RequestBody User user) {
-		return this.userService.emailCheck(user);
+	@GetMapping("/getbyemail")
+	Result getByEmail(@RequestBody String email) {
+		return this.userService.getByEmail(email);
+	}
+
+	@PostMapping("/add")
+	Result add(@RequestBody User user) {
+
+		return this.userService.add(user);
 	}
 
 }

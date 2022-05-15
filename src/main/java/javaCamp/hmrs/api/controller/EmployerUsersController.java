@@ -34,8 +34,9 @@ public class EmployerUsersController {
 	}
 
 	@PostMapping("/add")
-	Result add(@RequestBody EmployerUser employerUser) {
-		return this.employerUserService.add(employerUser);
+	Result add(@RequestBody EmployerUser employerUser, String passwordAgain) {
+
+		return this.employerUserService.add(employerUser, passwordAgain);
 
 	}
 

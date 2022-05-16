@@ -1,35 +1,35 @@
 package javaCamp.hmrs.business.concretes;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.UserService;
 import javaCamp.hmrs.core.utilities.helpers.IsEmailRegistered;
 import javaCamp.hmrs.core.utilities.results.DataResult;
-import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 @Component
-@Qualifier("UserManager")
+@Qualifier( value =  "UserManager")
+
 
 public class UserManager implements UserService {
 
-	UserDao userDao;
+	 UserDao userDao;
+	 EmailVerificationService emailVerificationService;
 
 	@Autowired
-	public UserManager(UserDao userDao) {
-		super();
+	public UserManager(
+			 UserDao userDao) {
 		this.userDao = userDao;
+
 	}
 
 	@Override
@@ -50,6 +50,12 @@ public class UserManager implements UserService {
 
 		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
 
+	}
+
+	@Override
+	public Result verifyEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

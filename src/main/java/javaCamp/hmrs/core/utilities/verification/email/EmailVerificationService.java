@@ -1,7 +1,9 @@
 package javaCamp.hmrs.core.utilities.verification.email;
 
+import javaCamp.hmrs.core.utilities.results.Result;
+
 public interface EmailVerificationService {
 	
-	public boolean verify();
+	public Result verify();
 
 }

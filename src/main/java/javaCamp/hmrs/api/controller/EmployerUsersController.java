@@ -22,7 +22,7 @@ public class EmployerUsersController {
 	private EmployerUserService employerUserService;
 
 	@Autowired
-	public EmployerUsersController(@Qualifier("EmployerUserManager") EmployerUserService employerUserService) {
+	public EmployerUsersController(EmployerUserService employerUserService) {
 		super();
 		this.employerUserService = employerUserService;
 	}

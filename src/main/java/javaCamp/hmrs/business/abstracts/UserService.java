@@ -13,4 +13,6 @@ public interface UserService {
 	
 	DataResult<User> getByEmail(String email);
 	
+	Result verifyEmail(String email);
+	
 }

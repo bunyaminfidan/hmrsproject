@@ -19,7 +19,9 @@ public class UsersController {
 	@Autowired
 	UserService userService;
 
-	public UsersController(@Qualifier("UserManager") UserService userService) {
+	public UsersController(
+			@Qualifier("UserManager") UserService userService
+			) {
 		super();
 		this.userService = userService;
 	}

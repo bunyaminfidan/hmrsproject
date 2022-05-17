@@ -1,9 +1,5 @@
 package javaCamp.hmrs.business.concretes;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
-import javaCamp.hmrs.core.utilities.validation.DateOfBirthValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
@@ -48,8 +43,8 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 		if (!checkValues(systemUser, passwordAgain).isSuccess())
 			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
 
-		if (!super.add(systemUser,passwordAgain).isSuccess())
-			return new ErrorResult(super.add(systemUser,passwordAgain).getMessage());
+		if (!super.add(systemUser, passwordAgain).isSuccess())
+			return new ErrorResult(super.add(systemUser, passwordAgain).getMessage());
 
 		int getUserId = GetUserDetailHelper.getUserId(super.userDao, systemUser);
 

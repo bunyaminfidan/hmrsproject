@@ -3,9 +3,6 @@ package javaCamp.hmrs.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.EmployerUserService;
@@ -17,8 +14,6 @@ import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
-import javaCamp.hmrs.core.utilities.validation.EmailValidator;
-import javaCamp.hmrs.core.utilities.validation.PasswordValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
@@ -48,8 +43,8 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		if (!checkValues(employerUser, passwordAgain).isSuccess())
 			return new ErrorResult(checkValues(employerUser, passwordAgain).getMessage());
 
-		if (!super.add(employerUser,passwordAgain).isSuccess())
-			return new ErrorResult(super.add(employerUser,passwordAgain).getMessage());
+		if (!super.add(employerUser, passwordAgain).isSuccess())
+			return new ErrorResult(super.add(employerUser, passwordAgain).getMessage());
 
 		int getUserId = GetUserDetailHelper.getUserId(super.userDao, employerUser);
 		if (getUserId != 0) {
@@ -75,10 +70,10 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 
 		if (!phoneNumberValid.isSuccess())
 			return new ErrorResult(phoneNumberValid.getMessage());
-		
+
 		if (!websiteValid.isSuccess())
 			return new ErrorResult(websiteValid.getMessage());
-		
+
 		if (!emailIsWebsiteDomain.isSuccess())
 			return new ErrorResult(emailIsWebsiteDomain.getMessage());
 

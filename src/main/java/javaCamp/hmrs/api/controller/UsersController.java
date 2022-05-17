@@ -32,9 +32,9 @@ public class UsersController {
 	}
 
 	@PostMapping("/add")
-	Result add(@RequestBody User user) {
+	Result add(@RequestBody User user, String passwordAgain) {
 
-		return this.userService.add(user);
+		return this.userService.add(user, passwordAgain);
 	}
 
 }

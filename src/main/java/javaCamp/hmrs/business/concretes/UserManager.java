@@ -1,8 +1,6 @@
 package javaCamp.hmrs.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.UserService;
 import javaCamp.hmrs.core.utilities.helpers.IsEmailRegistered;
@@ -11,15 +9,10 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
-import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
-import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailValidator;
 import javaCamp.hmrs.core.utilities.validation.PasswordValidator;
-import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
-import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
-import javaCamp.hmrs.entites.concretes.EmployerUser;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service

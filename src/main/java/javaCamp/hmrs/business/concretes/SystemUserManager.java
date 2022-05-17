@@ -38,9 +38,9 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	}
 
 	@Override
-	public DataResult<List<SystemUser>> getByNationalityId(String nationalityId) {
+	public DataResult<SystemUser>  getByNationalityId(String nationalityId) {
 
-		return new SuccessDataResult<List<SystemUser>>(this.systemUserDao.findByNationalityIdIs(nationalityId),"Tc Kimlik Numarasına göre getirildi");
+		return new SuccessDataResult<SystemUser>(this.systemUserDao.findByNationalityIdIs(nationalityId),"Tc Kimlik Numarasına göre getirildi");
 	}
 
 	@Override

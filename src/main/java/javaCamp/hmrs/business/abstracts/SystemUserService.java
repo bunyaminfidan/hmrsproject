@@ -13,7 +13,7 @@ public interface SystemUserService {
 	
 	Result add(SystemUser systemUser, String passwordAgain);
 	
-	DataResult<List<SystemUser>>  getByNationalityId(String nationalityId);
+	DataResult<SystemUser>  getByNationalityId(String nationalityId);
 
 
 }

@@ -9,6 +9,6 @@ import javaCamp.hmrs.entites.concretes.User;
 
 public interface SystemUserDao extends JpaRepository<SystemUser, Integer> {
 
-	List<SystemUser> findByNationalityIdIs(String nationalityId);
+	SystemUser findByNationalityIdIs(String nationalityId);
 
 }

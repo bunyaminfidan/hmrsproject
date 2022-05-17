@@ -34,7 +34,7 @@ public class SystemUsersController {
 	}
 
 	@PostMapping("/add")
-	Result add(@RequestBody SystemUser systemUser, String passwordAgain) {
+	Result add(@RequestBody SystemUser systemUser, @RequestParam String passwordAgain) {
 
 		return this.systemUserService.add(systemUser, passwordAgain);
 
@@ -42,7 +42,6 @@ public class SystemUsersController {
 
 	@GetMapping("/getbynationalityid")
 	Result getByNationalityId(@RequestParam String nationalityId) {
-		System.out.println(nationalityId);
 		return this.systemUserService.getByNationalityId(nationalityId);
 	}
 

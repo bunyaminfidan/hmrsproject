@@ -29,7 +29,7 @@ public class EmployerUsersController {
 		this.employerUserService = employerUserService;
 	}
 
-	@GetMapping("/gsetall")
+	@GetMapping("/getall")
 	DataResult<List<EmployerUser>> getAll() {
 		return this.employerUserService.getAll();
 

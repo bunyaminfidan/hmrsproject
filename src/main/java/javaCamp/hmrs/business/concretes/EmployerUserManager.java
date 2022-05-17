@@ -21,15 +21,11 @@ import javaCamp.hmrs.core.utilities.validation.EmailValidator;
 import javaCamp.hmrs.core.utilities.validation.PasswordValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
-import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
 
 @Service
-@Component
-@Qualifier("EmployerUserManager")
-@Primary
 public class EmployerUserManager extends UserManager implements EmployerUserService {
 
 	private EmployerUserDao employerUserDao;

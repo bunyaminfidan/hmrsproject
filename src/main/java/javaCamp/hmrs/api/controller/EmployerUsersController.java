@@ -19,15 +19,17 @@ import javaCamp.hmrs.entites.concretes.EmployerUser;
 @RequestMapping("/api/users/employerusers")
 public class EmployerUsersController {
 
+	
+	@Qualifier("employerUserManager")
 	private EmployerUserService employerUserService;
-
+	
 	@Autowired
-	public EmployerUsersController(EmployerUserService employerUserService) {
+	public EmployerUsersController(@Qualifier("employerUserManager") EmployerUserService employerUserService) {
 		super();
 		this.employerUserService = employerUserService;
 	}
 
-	@GetMapping("/getall")
+	@GetMapping("/gsetall")
 	DataResult<List<EmployerUser>> getAll() {
 		return this.employerUserService.getAll();
 

@@ -16,12 +16,12 @@ import javaCamp.hmrs.entites.concretes.User;
 @RequestMapping("/api/users")
 public class UsersController {
 
-	@Autowired
+
+	@Qualifier("userManager")
 	UserService userService;
 
-	public UsersController(
-			@Qualifier("UserManager") UserService userService
-			) {
+	@Autowired
+	public UsersController(@Qualifier("userManager") UserService userService) {
 		super();
 		this.userService = userService;
 	}

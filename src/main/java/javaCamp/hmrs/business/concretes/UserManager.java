@@ -2,7 +2,7 @@ package javaCamp.hmrs.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.UserService;
 import javaCamp.hmrs.core.utilities.helpers.IsEmailRegistered;
@@ -16,18 +16,14 @@ import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
-@Component
-@Qualifier( value =  "UserManager")
-
 
 public class UserManager implements UserService {
 
-	 UserDao userDao;
-	 EmailVerificationService emailVerificationService;
+	UserDao userDao;
+	EmailVerificationService emailVerificationService;
 
 	@Autowired
-	public UserManager(
-			 UserDao userDao) {
+	public UserManager(UserDao userDao) {
 		this.userDao = userDao;
 
 	}

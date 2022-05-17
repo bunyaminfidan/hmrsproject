@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.business.abstracts.SystemUserService;
 import javaCamp.hmrs.core.utilities.results.DataResult;
+import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.entites.concretes.SystemUser;
 
 @RestController
@@ -26,6 +29,13 @@ public class SystemUsersController {
 	@GetMapping("/getall")
 	DataResult<List<SystemUser>> getAll() {
 		return this.systemUserService.getAll();
+
+	}
+	
+	@PostMapping("/add")
+	Result add(@RequestBody SystemUser systemUser, String passwordAgain) {
+
+		return this.systemUserService.add(systemUser, passwordAgain);
 
 	}
 

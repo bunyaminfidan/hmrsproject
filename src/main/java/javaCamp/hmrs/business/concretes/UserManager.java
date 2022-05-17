@@ -11,8 +11,15 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
+import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
+import javaCamp.hmrs.core.utilities.validation.EmailValidator;
+import javaCamp.hmrs.core.utilities.validation.PasswordValidator;
+import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
+import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
+import javaCamp.hmrs.entites.concretes.EmployerUser;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
@@ -29,7 +36,10 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result add(User user) {
+	public Result add(User user, String passwordAgain) {
+		
+		if (!checkValues(user, passwordAgain).isSuccess())
+			return new ErrorResult(checkValues(user, passwordAgain).getMessage());
 
 		if (IsEmailRegistered.userEmailCheck(user.getEmail(), userDao)) {
 
@@ -52,6 +62,20 @@ public class UserManager implements UserService {
 	public Result verifyEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	Result checkValues(User user, String passwordAgain) {
+
+		Result emailVaid = EmailValidator.valid(user.getEmail());
+		Result passwordValid = PasswordValidator.valid(user.getPassword(), passwordAgain);
+
+		if (!emailVaid.isSuccess())
+			return new ErrorResult(emailVaid.getMessage());
+		
+		if (!passwordValid.isSuccess())
+			return new ErrorResult(passwordValid.getMessage());
+
+		return new SuccessResult();
 	}
 
 }

@@ -1,5 +1,7 @@
 package javaCamp.hmrs.entites.concretes;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -29,6 +31,6 @@ public class SystemUser extends User {
 	private String nationalityId;
 	
 	@Column(name = "date_of_birth")
-	private String dateOfBirth;
+	private Date dateOfBirth;
 
 }

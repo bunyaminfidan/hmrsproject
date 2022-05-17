@@ -48,8 +48,8 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		if (!checkValues(employerUser, passwordAgain).isSuccess())
 			return new ErrorResult(checkValues(employerUser, passwordAgain).getMessage());
 
-		if (!super.add(employerUser).isSuccess())
-			return new ErrorResult("İşveren sistemde zaten kayıtlı");
+		if (!super.add(employerUser,passwordAgain).isSuccess())
+			return new ErrorResult(super.add(employerUser,passwordAgain).getMessage());
 
 		int getUserId = GetUserDetailHelper.getUserId(super.userDao, employerUser);
 		if (getUserId != 0) {
@@ -65,26 +65,22 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 	Result checkValues(EmployerUser employerUser, String passwordAgain) {
 
 		Result companyNameValid = CompanyNameValidator.valid(employerUser.getCompanyName());
-		Result emailVaid = EmailValidator.valid(employerUser.getEmail());
 		Result phoneNumberValid = PhoneNumberValidator.valid(employerUser.getPhoneNumber());
 		Result websiteValid = WebsiteValidator.valid(employerUser.getWebsite());
-		Result passwordValid = PasswordValidator.valid(employerUser.getPassword(), passwordAgain);
 		Result emailIsWebsiteDomain = EmailIsWebsiteDomainValidator.valid(employerUser.getEmail(),
 				employerUser.getWebsite());
 
-		if (!companyNameValid.isSuccess()) {
+		if (!companyNameValid.isSuccess())
 			return new ErrorResult(companyNameValid.getMessage());
-		} else if (!emailVaid.isSuccess()) {
-			return new ErrorResult(emailVaid.getMessage());
-		} else if (!phoneNumberValid.isSuccess()) {
+
+		if (!phoneNumberValid.isSuccess())
 			return new ErrorResult(phoneNumberValid.getMessage());
-		} else if (!websiteValid.isSuccess()) {
+		
+		if (!websiteValid.isSuccess())
 			return new ErrorResult(websiteValid.getMessage());
-		} else if (!emailIsWebsiteDomain.isSuccess()) {
+		
+		if (!emailIsWebsiteDomain.isSuccess())
 			return new ErrorResult(emailIsWebsiteDomain.getMessage());
-		} else if (!passwordValid.isSuccess()) {
-			return new ErrorResult(passwordValid.getMessage());
-		}
 
 		return new SuccessResult();
 	}

@@ -19,6 +19,7 @@ import javaCamp.hmrs.dataAccess.abstracts.SystemUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 
 import javaCamp.hmrs.entites.concretes.SystemUser;
+import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class SystemUserManager extends UserManager implements SystemUserService {
@@ -29,7 +30,6 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	public SystemUserManager(UserDao userDao, SystemUserDao systemUserDao) {
 		super(userDao);
 		this.systemUserDao = systemUserDao;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -38,10 +38,18 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	}
 
 	@Override
+	public DataResult<List<SystemUser>> getByNationalityId(String nationalityId) {
+
+		return new SuccessDataResult<List<SystemUser>>(this.systemUserDao.findByNationalityIdIs(nationalityId),"Tc Kimlik Numarasına göre getirildi");
+	}
+
+	@Override
 	public Result add(SystemUser systemUser, String passwordAgain) {
 
 		if (!checkValues(systemUser, passwordAgain).isSuccess())
 			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
+
+		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
 
 		if (!super.add(systemUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(systemUser, passwordAgain).getMessage());

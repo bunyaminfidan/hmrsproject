@@ -16,7 +16,6 @@ import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
-
 public class UserManager implements UserService {
 
 	UserDao userDao;

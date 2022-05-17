@@ -19,6 +19,7 @@ import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
+import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class EmployerUserManager extends UserManager implements EmployerUserService {
@@ -33,9 +34,11 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 
 	@Override
 	public DataResult<List<EmployerUser>> getAll() {
-		// TODO Auto-generated method stub
+
 		return new SuccessDataResult<>(this.employerUserDao.findAll(), "İş verenler getirildi");
 	}
+
+
 
 	@Override
 	public Result add(EmployerUser employerUser, String passwordAgain) {

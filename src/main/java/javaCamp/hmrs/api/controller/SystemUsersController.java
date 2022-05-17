@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.business.abstracts.SystemUserService;
@@ -17,7 +18,7 @@ import javaCamp.hmrs.entites.concretes.SystemUser;
 @RestController
 @RequestMapping("/api/users/systemusers")
 public class SystemUsersController {
-	
+
 	@Qualifier("systemUserManager")
 	private SystemUserService systemUserService;
 
@@ -25,13 +26,13 @@ public class SystemUsersController {
 		super();
 		this.systemUserService = systemUserService;
 	}
-	
+
 	@GetMapping("/getall")
 	DataResult<List<SystemUser>> getAll() {
 		return this.systemUserService.getAll();
 
 	}
-	
+
 	@PostMapping("/add")
 	Result add(@RequestBody SystemUser systemUser, String passwordAgain) {
 
@@ -39,5 +40,10 @@ public class SystemUsersController {
 
 	}
 
+	@GetMapping("/getbynationalityid")
+	Result getByNationalityId(@RequestParam String nationalityId) {
+		System.out.println(nationalityId);
+		return this.systemUserService.getByNationalityId(nationalityId);
+	}
 
 }

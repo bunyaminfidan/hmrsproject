@@ -41,7 +41,7 @@ public class SystemUsersController {
 	}
 
 	@GetMapping("/getbynationalityid")
-	Result getByNationalityId(@RequestParam String nationalityId) {
+	DataResult<SystemUser> getByNationalityId(@RequestParam String nationalityId) {
 		return this.systemUserService.getByNationalityId(nationalityId);
 	}
 

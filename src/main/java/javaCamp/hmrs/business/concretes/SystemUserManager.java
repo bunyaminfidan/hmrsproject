@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.SystemUserService;
 import javaCamp.hmrs.core.utilities.helpers.GetUserDetailHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
+import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
@@ -38,22 +40,28 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	}
 
 	@Override
-	public DataResult<SystemUser>  getByNationalityId(String nationalityId) {
+	public DataResult<SystemUser> getByNationalityId(String nationalityId) {
 
-		return new SuccessDataResult<SystemUser>(this.systemUserDao.findByNationalityIdIs(nationalityId),"Tc Kimlik Numarasına göre getirildi");
+		return new SuccessDataResult<SystemUser>(this.systemUserDao.findByNationalityIdIs(nationalityId),
+				"Tc Kimlik Numarasına göre getirildi");
 	}
 
 	@Override
 	public Result add(SystemUser systemUser, String passwordAgain) {
 
-		if (!checkValues(systemUser, passwordAgain).isSuccess())
+		// Girilen değerlerin uygunluğunu kontrol eder
+		if (!BaseIndividualValidator.checkValuesSystemUser(systemUser).isSuccess())
 			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
+		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, systemUser.getNationalityId()))
+			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
+		// Kullanıcı email ve password kontrol ve kayıt eder
 		if (!super.add(systemUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(systemUser, passwordAgain).getMessage());
 
+		// kayıt edilen kullnaıcı id getirir
 		int getUserId = GetUserDetailHelper.getUserId(super.userDao, systemUser);
 
 		if (getUserId != 0) {
@@ -64,27 +72,6 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 			return new ErrorResult("Sistem personeli kayıt edilemedi");
 		}
 
-	}
-
-	Result checkValues(SystemUser systemUser, String passwordAgain) {
-
-		Result firstNameValid = FirstNameValidator.valid(systemUser.getFirstName());
-		Result lastNameValid = LastNameValidator.valid(systemUser.getLastName());
-		Result nationalityIdValid = NationalityIdValidator.valid(systemUser.getNationalityId());
-
-		if (systemUser.getDateOfBirth() == null)
-			return new ErrorResult("Dogum tarihi boş olamaz");
-
-		if (!firstNameValid.isSuccess())
-			return new ErrorResult(firstNameValid.getMessage());
-
-		if (!lastNameValid.isSuccess())
-			return new ErrorResult(lastNameValid.getMessage());
-
-		if (!nationalityIdValid.isSuccess())
-			return new ErrorResult(nationalityIdValid.getMessage());
-
-		return new SuccessResult();
 	}
 
 }

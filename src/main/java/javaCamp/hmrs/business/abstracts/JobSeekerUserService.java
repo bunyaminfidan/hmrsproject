@@ -12,5 +12,7 @@ public interface JobSeekerUserService {
 	DataResult<List<JobSeekerUser>> getAll();
 	
 	Result add(JobSeekerUser jobSeekerUser, String passwordAgain);
+	
+	DataResult<JobSeekerUser>  getByNationalityId(String nationalityId);
 
 }

@@ -3,7 +3,7 @@ package javaCamp.hmrs.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.business.abstracts.UserService;
-import javaCamp.hmrs.core.utilities.helpers.IsEmailRegistered;
+import javaCamp.hmrs.core.utilities.helpers.GetUserDetailHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
@@ -29,12 +29,11 @@ public class UserManager implements UserService {
 
 	@Override
 	public Result add(User user, String passwordAgain) {
-		
+
 		if (!checkValues(user, passwordAgain).isSuccess())
 			return new ErrorResult(checkValues(user, passwordAgain).getMessage());
 
-		if (IsEmailRegistered.userEmailCheck(user.getEmail(), userDao)) {
-
+		if (GetUserDetailHelper.isEmailRegistered(userDao, user.getEmail())) {
 			return new ErrorResult("Email sistemde kayıtlı");
 		} else {
 			this.userDao.save(user);
@@ -63,7 +62,7 @@ public class UserManager implements UserService {
 
 		if (!emailVaid.isSuccess())
 			return new ErrorResult(emailVaid.getMessage());
-		
+
 		if (!passwordValid.isSuccess())
 			return new ErrorResult(passwordValid.getMessage());
 

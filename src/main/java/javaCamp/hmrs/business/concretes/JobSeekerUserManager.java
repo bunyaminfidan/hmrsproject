@@ -12,6 +12,7 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
@@ -26,8 +27,9 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 	private JobSeekerUserDao jobSeekerUserDao;
 
 	@Autowired
-	public JobSeekerUserManager(UserDao userDao) {
+	public JobSeekerUserManager(UserDao userDao,JobSeekerUserDao jobSeekerUserDao) {
 		super(userDao);
+		this.jobSeekerUserDao = jobSeekerUserDao;
 	}
 
 	@Override
@@ -39,11 +41,14 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 	@Override
 	public Result add(JobSeekerUser jobSeekerUser, String passwordAgain) {
 
-		if (!checkValues(jobSeekerUser, passwordAgain).isSuccess())
+		if (!BaseIndividualValidator.checkValuesJobSeekerUser(jobSeekerUser).isSuccess())
 			return new ErrorResult(checkValues(jobSeekerUser, passwordAgain).getMessage());
 
 		
-		//Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
+		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
+		
+		if (GetUserDetailHelper.getJobSeekerUserByNationalityId(jobSeekerUserDao, jobSeekerUser.getNationalityId()))
+			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 		
 		
 		if (!super.add(jobSeekerUser, passwordAgain).isSuccess())
@@ -59,29 +64,17 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 			return new ErrorResult("Sistem personeli kayıt edilemedi");
 		}
 	}
-	
-	
-	
-	Result checkValues(SystemUser jobSeekerUser, String passwordAgain) {
 
-		Result firstNameValid = FirstNameValidator.valid(jobSeekerUser.getFirstName());
-		Result lastNameValid = LastNameValidator.valid(jobSeekerUser.getLastName());
-		Result nationalityIdValid = NationalityIdValidator.valid(jobSeekerUser.getNationalityId());
+	@Override
+	public DataResult<JobSeekerUser> getByNationalityId(String nationalityId) {
 
-		if (jobSeekerUser.getDateOfBirth() == null)
-			return new ErrorResult("Dogum tarihi boş olamaz");
-
-		if (!firstNameValid.isSuccess())
-			return new ErrorResult(firstNameValid.getMessage());
-
-		if (!lastNameValid.isSuccess())
-			return new ErrorResult(lastNameValid.getMessage());
-
-		if (!nationalityIdValid.isSuccess())
-			return new ErrorResult(nationalityIdValid.getMessage());
-
-		return new SuccessResult();
+		return new SuccessDataResult<JobSeekerUser>(this.jobSeekerUserDao.findByNationalityIdIs(nationalityId),
+				"Tc Kimlik Numarasına göre getirildi");
 	}
+	
+	
+	
+
 	
 	
 	

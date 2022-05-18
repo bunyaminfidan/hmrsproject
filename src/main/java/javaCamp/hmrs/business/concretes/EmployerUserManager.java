@@ -38,8 +38,6 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		return new SuccessDataResult<>(this.employerUserDao.findAll(), "İş verenler getirildi");
 	}
 
-
-
 	@Override
 	public Result add(EmployerUser employerUser, String passwordAgain) {
 

@@ -7,5 +7,5 @@ import javaCamp.hmrs.entites.concretes.JobSeekerUser;
 
 public interface JobSeekerUserDao extends JpaRepository<JobSeekerUser, Integer> {
 
-	JobSeekerUser findByNationalityId(String nationalityId);
+	JobSeekerUser findByNationalityIdIs(String nationalityId);
 }

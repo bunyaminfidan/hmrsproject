@@ -3,6 +3,7 @@ package javaCamp.hmrs.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.SystemUserService;
@@ -17,21 +18,27 @@ import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.SystemUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 
 import javaCamp.hmrs.entites.concretes.SystemUser;
-import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class SystemUserManager extends UserManager implements SystemUserService {
 
+
 	private SystemUserDao systemUserDao;
 
+	@Qualifier("mernisVerificationManager")
+	private MernisVerificationService mernisVerificationService;
+
 	@Autowired
-	public SystemUserManager(UserDao userDao, SystemUserDao systemUserDao) {
+	public SystemUserManager(UserDao userDao, SystemUserDao systemUserDao,
+			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService) {
 		super(userDao);
 		this.systemUserDao = systemUserDao;
+		this.mernisVerificationService = mernisVerificationService;
 	}
 
 	@Override
@@ -56,6 +63,10 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
 		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, systemUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
+
+		// Mernis Doğrulaması yapıyor.
+		if (!mernisVerificationService.verify())
+			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
 		// Kullanıcı email ve password kontrol ve kayıt eder
 		if (!super.add(systemUser, passwordAgain).isSuccess())

@@ -7,5 +7,10 @@ import javaCamp.hmrs.entites.concretes.Approve;
 public interface ApproveDao extends JpaRepository<Approve, Integer> {
 
 	Approve findByUserId(int userId);
+	
+	
+	Approve findTop1ByUserIdOrderByIdDesc(int userId);
+	
+
 
 }

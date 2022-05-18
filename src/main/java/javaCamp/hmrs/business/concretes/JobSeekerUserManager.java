@@ -1,8 +1,10 @@
 package javaCamp.hmrs.business.concretes;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.JobSeekerUserService;
@@ -16,8 +18,13 @@ import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
+import javaCamp.hmrs.dataAccess.abstracts.JobSeekerMernisApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
+import javaCamp.hmrs.entites.concretes.Approve;
+import javaCamp.hmrs.entites.concretes.JobSeekerMernisApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerUser;
 import javaCamp.hmrs.entites.concretes.SystemUser;
 
@@ -25,12 +32,26 @@ import javaCamp.hmrs.entites.concretes.SystemUser;
 public class JobSeekerUserManager extends UserManager implements JobSeekerUserService {
 
 	private JobSeekerUserDao jobSeekerUserDao;
+	private ApproveDao approveDao;
+	private JobSeekerMernisApproveDao jobSeekerMernisApproveDao;
+
+	@Qualifier("mernisVerificationManager")
+	private MernisVerificationService mernisVerificationService;
 
 	@Autowired
-	public JobSeekerUserManager(UserDao userDao,JobSeekerUserDao jobSeekerUserDao) {
+	public JobSeekerUserManager(UserDao userDao, JobSeekerUserDao jobSeekerUserDao,
+			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService,
+			ApproveDao approveDao ,JobSeekerMernisApproveDao jobSeekerMernisApproveDao
+			) {
 		super(userDao);
 		this.jobSeekerUserDao = jobSeekerUserDao;
+		this.mernisVerificationService = mernisVerificationService;
+		this.jobSeekerMernisApproveDao = jobSeekerMernisApproveDao;
+		this.approveDao = approveDao;
 	}
+
+	JobSeekerMernisApprove approve = new JobSeekerMernisApprove();
+	Date approveDate;
 
 	@Override
 	public DataResult<List<JobSeekerUser>> getAll() {
@@ -44,13 +65,20 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (!BaseIndividualValidator.checkValuesJobSeekerUser(jobSeekerUser).isSuccess())
 			return new ErrorResult(checkValues(jobSeekerUser, passwordAgain).getMessage());
 
-		
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
-		
+
 		if (GetUserDetailHelper.getJobSeekerUserByNationalityId(jobSeekerUserDao, jobSeekerUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
+
+		// Mernis Doğrulaması yapıyor.
+		if (mernisVerificationService.verify())
+			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
+
 		
+		approve.setApprovalDate(new java.sql.Date(2022, 2, 2));
+		approve.setApproved(true);
 		
+
 		if (!super.add(jobSeekerUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(jobSeekerUser, passwordAgain).getMessage());
 
@@ -59,10 +87,29 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (getUserId != 0) {
 			jobSeekerUser.setId(getUserId);
 			this.userDao.save(jobSeekerUser);
+
+			// mernis approve kayıt bilgileri
+			approve.setUserId(getUserId);
+			approveDao.save(approve);
+			
+			approveDao.findTop1ByUserIdOrderByIdDesc(getUserId);
+			
+			System.out.println(approveDao.findTop1ByUserIdOrderByIdDesc(getUserId).getId());
+			System.out.println(approveDao.findTop1ByUserIdOrderByIdDesc(getUserId).getUserId());
+			
+			
+			
+			jobSeekerMernisApproveDao.save(approve);
+			
+			
+			
+			
+
 			return new SuccessResult("Sistem personeli kayıt edildi");
 		} else {
 			return new ErrorResult("Sistem personeli kayıt edilemedi");
 		}
+
 	}
 
 	@Override
@@ -71,12 +118,5 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		return new SuccessDataResult<JobSeekerUser>(this.jobSeekerUserDao.findByNationalityIdIs(nationalityId),
 				"Tc Kimlik Numarasına göre getirildi");
 	}
-	
-	
-	
-
-	
-	
-	
 
 }

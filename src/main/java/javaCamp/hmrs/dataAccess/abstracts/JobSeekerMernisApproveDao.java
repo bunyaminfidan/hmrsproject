@@ -2,6 +2,8 @@ package javaCamp.hmrs.dataAccess.abstracts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JobSeekerMernisApproveDao extends JpaRepository<JobSeekerMernisApproveDao, Integer> {
+import javaCamp.hmrs.entites.concretes.JobSeekerMernisApprove;
+
+public interface JobSeekerMernisApproveDao extends JpaRepository<JobSeekerMernisApprove, Integer> {
 
 }

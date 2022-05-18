@@ -3,6 +3,7 @@ package javaCamp.hmrs.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.EmployerUserService;
@@ -16,6 +17,7 @@ import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
@@ -25,11 +27,16 @@ import javaCamp.hmrs.entites.concretes.User;
 public class EmployerUserManager extends UserManager implements EmployerUserService {
 
 	private EmployerUserDao employerUserDao;
+	
+	@Qualifier("mernisVerificationManager")
+	private MernisVerificationService mernisVerificationService;
 
 	@Autowired
-	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao) {
+	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao,
+			@Qualifier("mernisVerificationManager") 	MernisVerificationService mernisVerificationService) {
 		super(userDao);
 		this.employerUserDao = employerUserDao;
+		this.mernisVerificationService = mernisVerificationService;
 	}
 
 	@Override

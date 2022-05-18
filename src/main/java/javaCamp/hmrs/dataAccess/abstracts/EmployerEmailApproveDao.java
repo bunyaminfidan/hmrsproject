@@ -1,5 +1,9 @@
 package javaCamp.hmrs.dataAccess.abstracts;
 
-public interface EmployerEmailApproveDao {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
+
+public interface EmployerEmailApproveDao extends JpaRepository<EmployerEmailApprove, Integer> {
 
 }

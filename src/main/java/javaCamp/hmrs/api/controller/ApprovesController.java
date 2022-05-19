@@ -15,7 +15,7 @@ public class ApprovesController {
 	
 	@Autowired
 	public ApprovesController(
-			@Qualifier("EmailVerificationManager")	EmailVerificationService emailVerificationService) {
+			@Qualifier("emailVerificationManager")	EmailVerificationService emailVerificationService) {
 		super();
 		this.emailVerificationService = emailVerificationService;
 	}

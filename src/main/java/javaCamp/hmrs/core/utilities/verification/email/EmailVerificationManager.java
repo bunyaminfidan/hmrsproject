@@ -1,22 +1,35 @@
 package javaCamp.hmrs.core.utilities.verification.email;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
+import javaCamp.hmrs.entites.concretes.User;
 
 
 @Service
-@Component
-@Qualifier("EmailVerificationManager")
 public class EmailVerificationManager implements EmailVerificationService {
+	
+	
+	
+	
+	
+
+	
 
 	@Override
-	public Result verify() {
+	public boolean verify() {
 
-		return new SuccessResult();
+		return true;
+	}
+
+	@Override
+	public Result sendEmail(User user) {
+		return null;
 	}
 
 }

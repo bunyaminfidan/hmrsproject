@@ -1,5 +1,6 @@
 package javaCamp.hmrs.business.concretes;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
-import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationServiceAdapter;
 import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerMernisApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
@@ -32,25 +34,30 @@ import javaCamp.hmrs.entites.concretes.SystemUser;
 public class JobSeekerUserManager extends UserManager implements JobSeekerUserService {
 
 	private JobSeekerUserDao jobSeekerUserDao;
-	private ApproveDao approveDao;
 	private JobSeekerMernisApproveDao jobSeekerMernisApproveDao;
 
 	@Qualifier("mernisVerificationManager")
-	private MernisVerificationService mernisVerificationService;
+	private MernisVerificationServiceAdapter mernisVerificationService;
+
+	@Qualifier("emailVerificationManager")
+	private EmailVerificationService emailVerificationService;
 
 	@Autowired
-	public JobSeekerUserManager(UserDao userDao, JobSeekerUserDao jobSeekerUserDao,
-			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService,
-			ApproveDao approveDao, JobSeekerMernisApproveDao jobSeekerMernisApproveDao) {
+	public JobSeekerUserManager(
+			UserDao userDao, 
+			JobSeekerUserDao jobSeekerUserDao,
+			JobSeekerMernisApproveDao jobSeekerMernisApproveDao,
+			@Qualifier("mernisVerificationManager") MernisVerificationServiceAdapter mernisVerificationService,
+			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService) {
+		
 		super(userDao);
 		this.jobSeekerUserDao = jobSeekerUserDao;
 		this.mernisVerificationService = mernisVerificationService;
 		this.jobSeekerMernisApproveDao = jobSeekerMernisApproveDao;
-		this.approveDao = approveDao;
+		this.emailVerificationService = emailVerificationService;
 	}
 
-	JobSeekerMernisApprove approve = new JobSeekerMernisApprove();
-	Date approveDate;
+	JobSeekerMernisApprove jobSeekerMernisApprove = new JobSeekerMernisApprove();
 
 	@Override
 	public DataResult<List<JobSeekerUser>> getAll() {
@@ -64,14 +71,16 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (!BaseIndividualValidator.checkValuesIndividualUser(jobSeekerUser.getFirstName(),
 				jobSeekerUser.getLastName(), jobSeekerUser.getNationalityId(), jobSeekerUser.getDateOfBirth())
 				.isSuccess())
-			return new ErrorResult(checkValues(jobSeekerUser, passwordAgain).getMessage());
+			return new ErrorResult(BaseIndividualValidator.checkValuesIndividualUser(jobSeekerUser.getFirstName(),
+					jobSeekerUser.getLastName(), jobSeekerUser.getNationalityId(), jobSeekerUser.getDateOfBirth())
+					.getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
 		if (GetUserDetailHelper.getJobSeekerUserByNationalityId(jobSeekerUserDao, jobSeekerUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
 		// Mernis Doğrulaması yapıyor.
-		if (mernisVerificationService.verify())
+		if (!mernisVerificationService.verify())
 			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
 		// approve.setApproved(true);
@@ -86,14 +95,22 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (getUserId != 0) {
 
 			// mernis approve kayıt bilgileri
-			approve.setUserId(getUserId);
-			approve.setApprovalDate(new Date(2022, 12, 12));
+			jobSeekerMernisApprove.setUserId(getUserId);
+			jobSeekerMernisApprove.setApprovalDate(LocalDate.now());
+			jobSeekerMernisApprove.setApproved(true);
 
-			jobSeekerMernisApproveDao.save(approve);
+			jobSeekerMernisApproveDao.save(jobSeekerMernisApprove);
+			
+			//emailVerificationService.verify();
+			
+			
+			
+			
+			
 
-			return new SuccessResult("Sistem personeli kayıt edildi");
+			return new SuccessResult("İş arayan  kayıt edildi");
 		} else {
-			return new ErrorResult("Sistem personeli kayıt edilemedi");
+			return new ErrorResult("İş arayan kayıt edilemedi");
 		}
 
 	}

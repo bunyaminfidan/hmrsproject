@@ -3,6 +3,8 @@ package javaCamp.hmrs.business.abstracts;
 
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
+import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
+import javaCamp.hmrs.entites.concretes.Approve;
 import javaCamp.hmrs.entites.concretes.User;
 
 public interface UserService {
@@ -11,6 +13,6 @@ public interface UserService {
 	
 	DataResult<User> getByEmail(String email);
 	
-	Result verifyEmail(String email);
+	Result verifyEmail(User user, Approve approve );
 	
 }

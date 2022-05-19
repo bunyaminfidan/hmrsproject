@@ -1,5 +1,6 @@
 package javaCamp.hmrs.entites.concretes;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -31,6 +32,6 @@ public class SystemUser extends User {
 	private String nationalityId;
 	
 	@Column(name = "date_of_birth")
-	private Date dateOfBirth;
+	private LocalDate dateOfBirth;
 
 }

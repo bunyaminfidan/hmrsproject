@@ -22,25 +22,6 @@ public class JobSeekerMernisApproveManager implements JobSeekerMernisApproveServ
 	}
 
 
-	@Override
-	public Result add(Approve approve) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public DataResult<Approve> getByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public Result add(JobSeekerMernisApprove jobSeekerMernisApprove) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

@@ -36,8 +36,7 @@ public class UserManager implements UserService {
 		if (GetUserDetailHelper.isEmailRegistered(userDao, user.getEmail())) {
 			return new ErrorResult("Email sistemde kayıtlı");
 		} else {
-			this.userDao.save(user);
-			return new SuccessResult("Kullanıcı kaydedildi");
+			return new SuccessResult("Kullanıcı kayıt için uygun");
 		}
 
 	}

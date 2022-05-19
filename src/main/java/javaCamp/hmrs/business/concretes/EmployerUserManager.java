@@ -13,6 +13,7 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.validation.BaseCompanyUserValidator;
 import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
@@ -27,16 +28,11 @@ import javaCamp.hmrs.entites.concretes.User;
 public class EmployerUserManager extends UserManager implements EmployerUserService {
 
 	private EmployerUserDao employerUserDao;
-	
-	@Qualifier("mernisVerificationManager")
-	private MernisVerificationService mernisVerificationService;
 
 	@Autowired
-	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao,
-			@Qualifier("mernisVerificationManager") 	MernisVerificationService mernisVerificationService) {
+	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao) {
 		super(userDao);
 		this.employerUserDao = employerUserDao;
-		this.mernisVerificationService = mernisVerificationService;
 	}
 
 	@Override
@@ -48,44 +44,15 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 	@Override
 	public Result add(EmployerUser employerUser, String passwordAgain) {
 
-		if (!checkValues(employerUser, passwordAgain).isSuccess())
-			return new ErrorResult(checkValues(employerUser, passwordAgain).getMessage());
+		if (!BaseCompanyUserValidator.checkValues(employerUser).isSuccess())
 
+			return new ErrorResult(BaseCompanyUserValidator.checkValues(employerUser).getMessage());
 		if (!super.add(employerUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(employerUser, passwordAgain).getMessage());
 
-		int getUserId = GetUserDetailHelper.getUserId(super.userDao, employerUser);
-		if (getUserId != 0) {
-			employerUser.setId(getUserId);
-			this.employerUserDao.save(employerUser);
-			return new SuccessResult("İşveren kayıt edildi");
-		} else {
-			return new ErrorResult("İşveren kayıt edilemedi");
-		}
+		this.employerUserDao.save(employerUser);
+		return new SuccessResult("İşveren kayıt edildi");
 
-	}
-
-	Result checkValues(EmployerUser employerUser, String passwordAgain) {
-
-		Result companyNameValid = CompanyNameValidator.valid(employerUser.getCompanyName());
-		Result phoneNumberValid = PhoneNumberValidator.valid(employerUser.getPhoneNumber());
-		Result websiteValid = WebsiteValidator.valid(employerUser.getWebsite());
-		Result emailIsWebsiteDomain = EmailIsWebsiteDomainValidator.valid(employerUser.getEmail(),
-				employerUser.getWebsite());
-
-		if (!companyNameValid.isSuccess())
-			return new ErrorResult(companyNameValid.getMessage());
-
-		if (!phoneNumberValid.isSuccess())
-			return new ErrorResult(phoneNumberValid.getMessage());
-
-		if (!websiteValid.isSuccess())
-			return new ErrorResult(websiteValid.getMessage());
-
-		if (!emailIsWebsiteDomain.isSuccess())
-			return new ErrorResult(emailIsWebsiteDomain.getMessage());
-
-		return new SuccessResult();
 	}
 
 }

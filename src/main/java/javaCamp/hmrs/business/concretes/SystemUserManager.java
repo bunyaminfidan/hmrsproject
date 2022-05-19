@@ -27,7 +27,6 @@ import javaCamp.hmrs.entites.concretes.SystemUser;
 @Service
 public class SystemUserManager extends UserManager implements SystemUserService {
 
-
 	private SystemUserDao systemUserDao;
 
 	@Qualifier("mernisVerificationManager")
@@ -57,7 +56,8 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	public Result add(SystemUser systemUser, String passwordAgain) {
 
 		// Girilen değerlerin uygunluğunu kontrol eder
-		if (!BaseIndividualValidator.checkValuesSystemUser(systemUser).isSuccess())
+		if (!BaseIndividualValidator.checkValuesIndividualUser(systemUser.getFirstName(), systemUser.getLastName(),
+				systemUser.getNationalityId(), systemUser.getDateOfBirth()).isSuccess())
 			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
@@ -65,23 +65,15 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
 		// Mernis Doğrulaması yapıyor.
-		if (!mernisVerificationService.verify())
+		if (mernisVerificationService.verify())
 			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
 		// Kullanıcı email ve password kontrol ve kayıt eder
 		if (!super.add(systemUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(systemUser, passwordAgain).getMessage());
 
-		// kayıt edilen kullnaıcı id getirir
-		int getUserId = GetUserDetailHelper.getUserId(super.userDao, systemUser);
-
-		if (getUserId != 0) {
-			systemUser.setId(getUserId);
-			this.systemUserDao.save(systemUser);
-			return new SuccessResult("Sistem personeli kayıt edildi");
-		} else {
-			return new ErrorResult("Sistem personeli kayıt edilemedi");
-		}
+		systemUserDao.save(systemUser);
+		return new SuccessResult("Sistem personeli kayıt edildi");
 
 	}
 

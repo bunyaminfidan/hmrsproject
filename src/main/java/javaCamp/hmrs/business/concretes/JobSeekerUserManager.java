@@ -41,8 +41,7 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 	@Autowired
 	public JobSeekerUserManager(UserDao userDao, JobSeekerUserDao jobSeekerUserDao,
 			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService,
-			ApproveDao approveDao ,JobSeekerMernisApproveDao jobSeekerMernisApproveDao
-			) {
+			ApproveDao approveDao, JobSeekerMernisApproveDao jobSeekerMernisApproveDao) {
 		super(userDao);
 		this.jobSeekerUserDao = jobSeekerUserDao;
 		this.mernisVerificationService = mernisVerificationService;
@@ -62,11 +61,12 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 	@Override
 	public Result add(JobSeekerUser jobSeekerUser, String passwordAgain) {
 
-		if (!BaseIndividualValidator.checkValuesJobSeekerUser(jobSeekerUser).isSuccess())
+		if (!BaseIndividualValidator.checkValuesIndividualUser(jobSeekerUser.getFirstName(),
+				jobSeekerUser.getLastName(), jobSeekerUser.getNationalityId(), jobSeekerUser.getDateOfBirth())
+				.isSuccess())
 			return new ErrorResult(checkValues(jobSeekerUser, passwordAgain).getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
-
 		if (GetUserDetailHelper.getJobSeekerUserByNationalityId(jobSeekerUserDao, jobSeekerUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
@@ -74,36 +74,22 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (mernisVerificationService.verify())
 			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
-		
-		approve.setApprovalDate(new java.sql.Date(2022, 2, 2));
-		approve.setApproved(true);
-		
+		// approve.setApproved(true);
 
 		if (!super.add(jobSeekerUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(jobSeekerUser, passwordAgain).getMessage());
 
+		jobSeekerUserDao.save(jobSeekerUser);
+
 		int getUserId = GetUserDetailHelper.getUserId(super.userDao, jobSeekerUser);
 
 		if (getUserId != 0) {
-			jobSeekerUser.setId(getUserId);
-			this.userDao.save(jobSeekerUser);
 
 			// mernis approve kayıt bilgileri
 			approve.setUserId(getUserId);
-			approveDao.save(approve);
-			
-			approveDao.findTop1ByUserIdOrderByIdDesc(getUserId);
-			
-			System.out.println(approveDao.findTop1ByUserIdOrderByIdDesc(getUserId).getId());
-			System.out.println(approveDao.findTop1ByUserIdOrderByIdDesc(getUserId).getUserId());
-			
-			
-			
+			approve.setApprovalDate(new Date(2022, 12, 12));
+
 			jobSeekerMernisApproveDao.save(approve);
-			
-			
-			
-			
 
 			return new SuccessResult("Sistem personeli kayıt edildi");
 		} else {

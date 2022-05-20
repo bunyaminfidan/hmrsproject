@@ -10,20 +10,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-public class JobSeekerEmailApprove {
+@Entity
+@Data
+@EqualsAndHashCode(callSuper = false)
+//@AllArgsConstructor
+//@NoArgsConstructor
+@PrimaryKeyJoinColumn(name = "approve_id")
+@Table(name = "job_seeker_email_approves")
+public class JobSeekerEmailApprove extends BaseEmailApprove {
 
-	@Entity
-	@Data
-	@EqualsAndHashCode(callSuper = false)
-	@AllArgsConstructor
-	@NoArgsConstructor
-	@PrimaryKeyJoinColumn(name = "approve_id")
-	@Table(name = "job_seeker_email_approves")
-	public class EmployerEmailApprove extends Approve {
 
-		@Column(name = "email")
-		private String email;
+//		@Column(name = "email")
+//		private String email;
 
-	}
+	
 
 }

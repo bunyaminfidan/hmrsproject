@@ -1,7 +1,5 @@
 package javaCamp.hmrs.business.concretes;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,48 +14,38 @@ import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
-import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
-import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
-import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
-import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationServiceAdapter;
-import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerMernisApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
-import javaCamp.hmrs.entites.concretes.Approve;
-import javaCamp.hmrs.entites.concretes.JobSeekerMernisApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerUser;
-import javaCamp.hmrs.entites.concretes.SystemUser;
 
 @Service
 public class JobSeekerUserManager extends UserManager implements JobSeekerUserService {
 
 	private JobSeekerUserDao jobSeekerUserDao;
-	private JobSeekerMernisApproveDao jobSeekerMernisApproveDao;
 
 	@Qualifier("mernisVerificationManager")
-	private MernisVerificationServiceAdapter mernisVerificationService;
+	private MernisVerificationService mernisVerificationService;
 
 	@Qualifier("emailVerificationManager")
 	private EmailVerificationService emailVerificationService;
 
 	@Autowired
-	public JobSeekerUserManager(
-			UserDao userDao, 
-			JobSeekerUserDao jobSeekerUserDao,
-			JobSeekerMernisApproveDao jobSeekerMernisApproveDao,
-			@Qualifier("mernisVerificationManager") MernisVerificationServiceAdapter mernisVerificationService,
-			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService) {
-		
+	public JobSeekerUserManager(UserDao userDao, JobSeekerUserDao jobSeekerUserDao,
+			JobSeekerMernisApproveDao jobSeekerMernisApproveDao, BaseEmailApproveDao baseEmailApproveDao,
+
+			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService,
+			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService) {
+
 		super(userDao);
 		this.jobSeekerUserDao = jobSeekerUserDao;
 		this.mernisVerificationService = mernisVerificationService;
-		this.jobSeekerMernisApproveDao = jobSeekerMernisApproveDao;
 		this.emailVerificationService = emailVerificationService;
-	}
 
-	JobSeekerMernisApprove jobSeekerMernisApprove = new JobSeekerMernisApprove();
+	}
 
 	@Override
 	public DataResult<List<JobSeekerUser>> getAll() {
@@ -88,30 +76,17 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		if (!super.add(jobSeekerUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(jobSeekerUser, passwordAgain).getMessage());
 
+		// kayıt
 		jobSeekerUserDao.save(jobSeekerUser);
 
-		int getUserId = GetUserDetailHelper.getUserId(super.userDao, jobSeekerUser);
+		// mernis approve kayıt bilgileri
+		mernisVerificationService.add(jobSeekerUser);
 
-		if (getUserId != 0) {
+		;
+		// email verify send();
+		this.emailVerificationService.add(jobSeekerUser);
 
-			// mernis approve kayıt bilgileri
-			jobSeekerMernisApprove.setUserId(getUserId);
-			jobSeekerMernisApprove.setApprovalDate(LocalDate.now());
-			jobSeekerMernisApprove.setApproved(true);
-
-			jobSeekerMernisApproveDao.save(jobSeekerMernisApprove);
-			
-			//emailVerificationService.verify();
-			
-			
-			
-			
-			
-
-			return new SuccessResult("İş arayan  kayıt edildi");
-		} else {
-			return new ErrorResult("İş arayan kayıt edilemedi");
-		}
+		return new SuccessResult("İş arayan  kayıt edildi");
 
 	}
 

@@ -18,7 +18,7 @@ import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
-import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationServiceAdapter;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.SystemUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 
@@ -30,11 +30,11 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	private SystemUserDao systemUserDao;
 
 	@Qualifier("mernisVerificationManager")
-	private MernisVerificationServiceAdapter mernisVerificationService;
+	private MernisVerificationService mernisVerificationService;
 
 	@Autowired
 	public SystemUserManager(UserDao userDao, SystemUserDao systemUserDao,
-			@Qualifier("mernisVerificationManager") MernisVerificationServiceAdapter mernisVerificationService) {
+			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService) {
 		super(userDao);
 		this.systemUserDao = systemUserDao;
 		this.mernisVerificationService = mernisVerificationService;

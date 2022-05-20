@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "approve_id")
 @Table(name = "employer_email_approves")
-public class EmployerEmailApprove extends Approve {
+public class EmployerEmailApprove extends BaseEmailApprove {
 
-	@Column(name = "email")
-	private String email;
+//	@Column(name = "email")
+//	private String email;
 
 }

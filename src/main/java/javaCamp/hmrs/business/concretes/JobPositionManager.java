@@ -7,17 +7,14 @@ import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.JobPositionService;
 import javaCamp.hmrs.core.utilities.helpers.GetJobPositionHelper;
-import javaCamp.hmrs.core.utilities.helpers.GetUserDetailHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
-import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.JobPositionValidator;
 import javaCamp.hmrs.dataAccess.abstracts.JobPositionDao;
 import javaCamp.hmrs.entites.concretes.JobPosition;
-import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class JobPositionManager implements JobPositionService {

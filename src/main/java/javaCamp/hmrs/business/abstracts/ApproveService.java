@@ -8,6 +8,6 @@ public interface ApproveService {
 
 	Result add(Approve approve);
 
-	DataResult<Approve> getByUserId(int userId);
+//	DataResult<Approve> getByUserId(int userId);
 
 }

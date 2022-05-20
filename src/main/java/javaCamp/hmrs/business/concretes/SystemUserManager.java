@@ -58,14 +58,15 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 		// Girilen değerlerin uygunluğunu kontrol eder
 		if (!BaseIndividualValidator.checkValuesIndividualUser(systemUser.getFirstName(), systemUser.getLastName(),
 				systemUser.getNationalityId(), systemUser.getDateOfBirth()).isSuccess())
-			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
+			return new ErrorResult(BaseIndividualValidator.checkValuesIndividualUser(systemUser.getFirstName(),
+					systemUser.getLastName(), systemUser.getNationalityId(), systemUser.getDateOfBirth()).getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
 		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, systemUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
 		// Mernis Doğrulaması yapıyor.
-		if (mernisVerificationService.verify())
+		if (!mernisVerificationService.verify())
 			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
 		// Kullanıcı email ve password kontrol ve kayıt eder

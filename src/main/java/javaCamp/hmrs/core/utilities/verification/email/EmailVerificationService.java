@@ -9,7 +9,7 @@ public interface EmailVerificationService {
 
 	Result add(User user);
 
-	DataResult<BaseEmailApprove> getApproveByVerifyCode(String verifyCode);
+	//DataResult<BaseEmailApprove> getApproveByVerifyCode(String verifyCode);
 
 
 

@@ -11,14 +11,6 @@ import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 @RequestMapping("/api/approves")
 public class ApprovesController {
 	
-//	@Qualifier("emailVerificationManager")
-//	EmailVerificationService emailVerificationService;
-//	
-//	@Autowired
-//	public ApprovesController(
-//			@Qualifier("emailVerificationManager")	EmailVerificationService emailVerificationService) {
-//		super();
-//		this.emailVerificationService = emailVerificationService;
-//	}
+
 
 }

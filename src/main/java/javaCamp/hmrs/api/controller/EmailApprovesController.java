@@ -1,5 +1,6 @@
 package javaCamp.hmrs.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,24 +22,20 @@ public class EmailApprovesController {
 	@Qualifier("emailVerificationManager")
 	private EmailVerificationService emailVerificationService;
 
+	@Autowired
 	public EmailApprovesController(
 			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService) {
 		super();
 		this.emailVerificationService = emailVerificationService;
 	}
 
-//	@PostMapping("/verifyCode")
-//	Result verifyCode(@RequestBody BaseEmailApprove baseEmailApprove) {
+
+
+//	@GetMapping("/getbyverifiycode")
+//	DataResult<BaseEmailApprove> verifyCode(@RequestParam String verifyCode) {
 //
-//		return this.emailVerificationService.verifyCode(baseEmailApprove);
+//		return this.emailVerificationService.getApproveByVerifyCode(verifyCode);
 //
 //	}
-
-	@GetMapping("/getbyverifiycode")
-	DataResult<BaseEmailApprove> verifyCode(@RequestParam String verifyCode) {
-
-		return this.emailVerificationService.getApproveByVerifyCode(verifyCode);
-
-	}
 
 }

@@ -2,7 +2,7 @@ package javaCamp.hmrs.core.utilities.verification.email;
 
 import java.time.LocalDate;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.core.utilities.helpers.RandomUUIDCodeHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
@@ -20,6 +20,7 @@ public class EmailVerificationManager implements EmailVerificationService {
 
 	private BaseEmailApproveDao baseEmailApproveDao;
 
+	@Autowired
 	public EmailVerificationManager(BaseEmailApproveDao baseEmailApproveDao) {
 		super();
 		this.baseEmailApproveDao = baseEmailApproveDao;
@@ -41,10 +42,6 @@ public class EmailVerificationManager implements EmailVerificationService {
 
 
 
-	@Override
-	public DataResult<BaseEmailApprove>  getApproveByVerifyCode(String verifyCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

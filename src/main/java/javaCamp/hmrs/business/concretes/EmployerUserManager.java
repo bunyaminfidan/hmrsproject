@@ -18,7 +18,7 @@ import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
-import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationServiceAdapter;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.EmployerUser;

@@ -9,17 +9,20 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
+import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailValidator;
 import javaCamp.hmrs.core.utilities.validation.PasswordValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
+import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
+import javaCamp.hmrs.entites.concretes.Approve;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class UserManager implements UserService {
 
 	UserDao userDao;
-	EmailVerificationService emailVerificationService;
+
 
 	@Autowired
 	public UserManager(UserDao userDao) {
@@ -30,8 +33,8 @@ public class UserManager implements UserService {
 	@Override
 	public Result add(User user, String passwordAgain) {
 
-		if (!checkValues(user, passwordAgain).isSuccess())
-			return new ErrorResult(checkValues(user, passwordAgain).getMessage());
+		if (!BaseIndividualValidator.checkValuesUser(user, passwordAgain).isSuccess())
+			return new ErrorResult(BaseIndividualValidator.checkValuesUser(user, passwordAgain).getMessage());
 
 		if (GetUserDetailHelper.isEmailRegistered(userDao, user.getEmail())) {
 			return new ErrorResult("Email sistemde kayıtlı");
@@ -49,23 +52,18 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result verifyEmail(String email) {
-		// TODO Auto-generated method stub
+	public DataResult<User> verifyEmail(User user, Approve approve) {
+		
+		
+		
+		
+		
+		
 		return null;
-	}
-
-	Result checkValues(User user, String passwordAgain) {
-
-		Result emailVaid = EmailValidator.valid(user.getEmail());
-		Result passwordValid = PasswordValidator.valid(user.getPassword(), passwordAgain);
-
-		if (!emailVaid.isSuccess())
-			return new ErrorResult(emailVaid.getMessage());
-
-		if (!passwordValid.isSuccess())
-			return new ErrorResult(passwordValid.getMessage());
-
-		return new SuccessResult();
+		
+		
+	
+		
 	}
 
 }

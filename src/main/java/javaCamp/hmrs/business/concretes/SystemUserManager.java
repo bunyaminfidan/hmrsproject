@@ -18,7 +18,7 @@ import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.validation.FirstNameValidator;
 import javaCamp.hmrs.core.utilities.validation.LastNameValidator;
 import javaCamp.hmrs.core.utilities.validation.NationalityIdValidator;
-import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationServiceAdapter;
 import javaCamp.hmrs.dataAccess.abstracts.SystemUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 
@@ -30,11 +30,11 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 	private SystemUserDao systemUserDao;
 
 	@Qualifier("mernisVerificationManager")
-	private MernisVerificationService mernisVerificationService;
+	private MernisVerificationServiceAdapter mernisVerificationService;
 
 	@Autowired
 	public SystemUserManager(UserDao userDao, SystemUserDao systemUserDao,
-			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService) {
+			@Qualifier("mernisVerificationManager") MernisVerificationServiceAdapter mernisVerificationService) {
 		super(userDao);
 		this.systemUserDao = systemUserDao;
 		this.mernisVerificationService = mernisVerificationService;
@@ -58,14 +58,15 @@ public class SystemUserManager extends UserManager implements SystemUserService 
 		// Girilen değerlerin uygunluğunu kontrol eder
 		if (!BaseIndividualValidator.checkValuesIndividualUser(systemUser.getFirstName(), systemUser.getLastName(),
 				systemUser.getNationalityId(), systemUser.getDateOfBirth()).isSuccess())
-			return new ErrorResult(checkValues(systemUser, passwordAgain).getMessage());
+			return new ErrorResult(BaseIndividualValidator.checkValuesIndividualUser(systemUser.getFirstName(),
+					systemUser.getLastName(), systemUser.getNationalityId(), systemUser.getDateOfBirth()).getMessage());
 
 		// Tc kimlik no kayıtlı mı sorgusu buraya gelecek.
 		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, systemUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
 
 		// Mernis Doğrulaması yapıyor.
-		if (mernisVerificationService.verify())
+		if (!mernisVerificationService.verify())
 			return new ErrorResult("Kullanıcı bilgileri mernis ile doğrulanamadı");
 
 		// Kullanıcı email ve password kontrol ve kayıt eder

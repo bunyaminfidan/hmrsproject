@@ -2,6 +2,7 @@ package javaCamp.hmrs.entites.concretes;
 
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class Approve {
 	private int userId;
 
 	@Column(name = "approval_date")
-	private Date approvalDate;
+	private LocalDate approvalDate;
 
 	@Column(name = "is_approved")
 	private boolean isApproved;

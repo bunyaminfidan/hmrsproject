@@ -13,11 +13,6 @@ public class EmployerEmailApproveManager  implements EmployerEmailApproveService
 		return null;
 	}
 
-	@Override
-	public DataResult<Approve> getByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

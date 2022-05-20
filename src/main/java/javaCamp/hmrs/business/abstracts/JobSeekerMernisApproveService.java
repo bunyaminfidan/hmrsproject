@@ -5,10 +5,8 @@ import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.entites.concretes.Approve;
 import javaCamp.hmrs.entites.concretes.JobSeekerMernisApprove;
 
-public interface JobSeekerMernisApproveService extends ApproveService {
+public interface JobSeekerMernisApproveService  {
 	
-	Result add(JobSeekerMernisApprove jobSeekerMernisApprove );
 
-	DataResult<Approve> getByUserId(int userId);
 
 }

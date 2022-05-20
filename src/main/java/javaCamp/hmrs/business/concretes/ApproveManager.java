@@ -26,9 +26,9 @@ public class ApproveManager implements ApproveService {
 		return new SuccessResult("Doğrulama işlemi tamamlandı");
 	}
 
-	@Override
-	public DataResult<Approve> getByUserId(int userId) {
-		return new SuccessDataResult<>(approveDao.findByUserId(userId), "Kullanıcı dogrulamaları getirildi");
-	}
+//	@Override
+//	public DataResult<Approve> getByUserId(int userId) {
+//		return new SuccessDataResult<>(approveDao.findByUserId(userId), "Kullanıcı dogrulamaları getirildi");
+//	}
 
 }

@@ -16,7 +16,7 @@ import javaCamp.hmrs.entites.concretes.User;
 @Service
 public class EmailVerificationManager implements EmailVerificationService {
 
-	JobSeekerEmailApprove jobSeekerEmailApprove = new JobSeekerEmailApprove();
+
 
 	private BaseEmailApproveDao baseEmailApproveDao;
 
@@ -27,15 +27,21 @@ public class EmailVerificationManager implements EmailVerificationService {
 	}
 
 	@Override
-	public Result add(User user) {
+	public Result add(BaseEmailApprove baseEmailApprove ) {
 
-		jobSeekerEmailApprove.setUserId(user.getId());
-		jobSeekerEmailApprove.setEmail(RandomUUIDCodeHelper.randomUuidCreate());
-		jobSeekerEmailApprove.setApprovalDate(LocalDate.now());
-		jobSeekerEmailApprove.setApproved(false);
+		//baseEmailApprove.setUserId(baseEmailApprove.getUserId());
+		baseEmailApprove.setVerifyCode(RandomUUIDCodeHelper.randomUuidCreate());
+		baseEmailApprove.setApprovalDate(LocalDate.now());
+		baseEmailApprove.setApproved(false);
 
-		baseEmailApproveDao.save(jobSeekerEmailApprove);
+		baseEmailApproveDao.save(baseEmailApprove);
 		return new SuccessResult("Doğrulama epostası gönderildi");
+	}
+
+	@Override
+	public Result verifyemail(String code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

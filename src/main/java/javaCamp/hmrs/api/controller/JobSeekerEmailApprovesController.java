@@ -30,12 +30,7 @@ public class JobSeekerEmailApprovesController {
 		this.jobSeekerEmailApproveService = jobSeekerEmailApproveService;
 	}
 	
-//	@PostMapping("/add")
-//	Result add(@RequestBody User user, String passwordAgain) {
-//
-//		return this.userService.add(user, passwordAgain);
-//	}
-	
+
 	
 
 	@GetMapping("/verifyemail")

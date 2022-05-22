@@ -7,8 +7,7 @@ import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
 public interface JobSeekerEmailApproveService  extends EmailVerificationService{
 	
 
-	Result verifyemail(String code );
-	
+
 	DataResult<JobSeekerEmailApprove> getApproveByVerifyCode(String verifyCode);
 	
 	

@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @MappedSuperclass
 public class BaseEmailApprove extends Approve {
 	
-	@Column(name = "email")  
-	private String email;
+	@Column(name = "verify_code")  
+	private String verifyCode;
 
 }

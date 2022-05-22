@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.core.utilities.results.DataResult;
+import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerEmailApproveDao;
 import javaCamp.hmrs.entites.concretes.BaseEmailApprove;
+import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
 import javaCamp.hmrs.entites.concretes.User;
 
@@ -35,7 +37,7 @@ public class JobSeekerEmailApproveManager extends EmailVerificationManager imple
 	@Override
 	public DataResult<JobSeekerEmailApprove> getApproveByVerifyCode(String verifyCode) {
 
-		return new SuccessDataResult<JobSeekerEmailApprove>(jobSeekerEmailApproveDao.findByEmail(verifyCode));
+		return new SuccessDataResult<JobSeekerEmailApprove>(jobSeekerEmailApproveDao.findByVerifyCode(verifyCode));
 	}
 
 	@Override
@@ -49,9 +51,11 @@ public class JobSeekerEmailApproveManager extends EmailVerificationManager imple
 			approve.setApprovalDate(LocalDate.now());
 
 			jobSeekerEmailApproveDao.save(approve);
+			return new SuccessDataResult<JobSeekerEmailApprove>("Email doğrolama başarılı");
 
+		} else {
+			return new ErrorDataResult<EmployerEmailApprove>(null, "Email doğrulanamadı");
 		}
-		return new SuccessDataResult<JobSeekerEmailApprove>("Başarılı");
 
 	}
 }

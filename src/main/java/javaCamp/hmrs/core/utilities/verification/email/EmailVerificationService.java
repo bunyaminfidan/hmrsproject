@@ -7,7 +7,9 @@ import javaCamp.hmrs.entites.concretes.User;
 
 public interface EmailVerificationService {
 
-	Result add(User user);
+	Result add(BaseEmailApprove baseEmailApprove );
+	
+	Result verifyemail(String code );	
 
 	//DataResult<BaseEmailApprove> getApproveByVerifyCode(String verifyCode);
 

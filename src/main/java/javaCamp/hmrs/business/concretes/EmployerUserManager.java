@@ -1,5 +1,6 @@
 package javaCamp.hmrs.business.concretes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.EmployerUserService;
 import javaCamp.hmrs.core.utilities.helpers.GetUserDetailHelper;
+import javaCamp.hmrs.core.utilities.helpers.RandomUUIDCodeHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
@@ -18,10 +20,13 @@ import javaCamp.hmrs.core.utilities.validation.CompanyNameValidator;
 import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
+import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
+import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
+import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
@@ -29,10 +34,15 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 
 	private EmployerUserDao employerUserDao;
 
+	@Qualifier("emailVerificationManager")
+	private EmailVerificationService emailVerificationService;
+
 	@Autowired
-	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao) {
+	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao,
+			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService) {
 		super(userDao);
 		this.employerUserDao = employerUserDao;
+		this.emailVerificationService = emailVerificationService;
 	}
 
 	@Override
@@ -47,10 +57,21 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		if (!BaseCompanyUserValidator.checkValues(employerUser).isSuccess())
 
 			return new ErrorResult(BaseCompanyUserValidator.checkValues(employerUser).getMessage());
+
 		if (!super.add(employerUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(employerUser, passwordAgain).getMessage());
 
 		this.employerUserDao.save(employerUser);
+
+		// email verify send();
+		EmployerEmailApprove employerEmailApprove = new EmployerEmailApprove();
+		employerEmailApprove.setUserId(employerUser.getId());
+		employerEmailApprove.setVerifyCode(RandomUUIDCodeHelper.randomUuidCreate());
+		employerEmailApprove.setApprovalDate(LocalDate.now());
+		employerEmailApprove.setApproved(false);
+
+		this.emailVerificationService.add(employerEmailApprove);
+
 		return new SuccessResult("İşveren kayıt edildi");
 
 	}

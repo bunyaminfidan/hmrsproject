@@ -6,6 +6,6 @@ import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
 
 public interface EmployerEmailApproveDao extends JpaRepository<EmployerEmailApprove, Integer> {
 	
-	EmployerEmailApprove findByEmail(String email);
+	EmployerEmailApprove findByVerifyCode(String verifyCode);
 
 }

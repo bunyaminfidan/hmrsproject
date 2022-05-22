@@ -1,5 +1,6 @@
 package javaCamp.hmrs.business.concretes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javaCamp.hmrs.business.abstracts.JobSeekerUserService;
 import javaCamp.hmrs.core.utilities.helpers.GetUserDetailHelper;
+import javaCamp.hmrs.core.utilities.helpers.RandomUUIDCodeHelper;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
@@ -20,6 +22,7 @@ import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerMernisApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
+import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerUser;
 
 @Service
@@ -82,9 +85,14 @@ public class JobSeekerUserManager extends UserManager implements JobSeekerUserSe
 		// mernis approve kayıt bilgileri
 		mernisVerificationService.add(jobSeekerUser);
 
-		;
 		// email verify send();
-		this.emailVerificationService.add(jobSeekerUser);
+		JobSeekerEmailApprove jobSeekerEmailApprove = new JobSeekerEmailApprove();
+		jobSeekerEmailApprove.setUserId(jobSeekerUser.getId());
+		jobSeekerEmailApprove.setVerifyCode(RandomUUIDCodeHelper.randomUuidCreate());
+		jobSeekerEmailApprove.setApprovalDate(LocalDate.now());
+		jobSeekerEmailApprove.setApproved(false);
+
+		this.emailVerificationService.add(jobSeekerEmailApprove);
 
 		return new SuccessResult("İş arayan  kayıt edildi");
 

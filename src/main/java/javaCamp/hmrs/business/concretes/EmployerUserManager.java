@@ -22,6 +22,7 @@ import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
+import javaCamp.hmrs.core.utilities.verification.systemManager.SystemManagerVerificationManager;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
@@ -36,13 +37,17 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 
 	@Qualifier("emailVerificationManager")
 	private EmailVerificationService emailVerificationService;
+	
+	private SystemManagerVerificationManager systemManagerVerificationManager;
 
 	@Autowired
 	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao,
-			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService) {
+			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService,
+			SystemManagerVerificationManager systemManagerVerificationManager) {
 		super(userDao);
 		this.employerUserDao = employerUserDao;
 		this.emailVerificationService = emailVerificationService;
+		this.systemManagerVerificationManager=systemManagerVerificationManager;
 	}
 
 	@Override
@@ -71,6 +76,9 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		employerEmailApprove.setApproved(false);
 
 		this.emailVerificationService.add(employerEmailApprove);
+		
+		
+		//systemManagerVerificationManager.add(employerUser);
 
 		return new SuccessResult("İşveren kayıt edildi");
 

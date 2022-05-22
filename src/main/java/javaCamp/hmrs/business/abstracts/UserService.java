@@ -13,6 +13,4 @@ public interface UserService {
 	
 	DataResult<User> getByEmail(String email);
 	
-	Result verifyEmail(User user, Approve approve );
-	
 }

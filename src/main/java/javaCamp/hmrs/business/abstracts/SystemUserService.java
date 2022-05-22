@@ -11,8 +11,6 @@ public interface SystemUserService {
 	
 	DataResult<List<SystemUser>> getAll();
 	
-	Result add(SystemUser systemUser, String passwordAgain);
-	
 	DataResult<SystemUser>  getByNationalityId(String nationalityId);
 
 

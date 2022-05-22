@@ -47,19 +47,6 @@ public class UserManager implements UserService {
 
 	}
 
-	@Override
-	public DataResult<User> verifyEmail(User user, Approve approve) {
-		
-		
-		
-		
-		
-		
-		return null;
-		
-		
-	
-		
-	}
+
 
 }

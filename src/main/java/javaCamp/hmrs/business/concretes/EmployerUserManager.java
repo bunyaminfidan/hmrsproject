@@ -58,7 +58,7 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 
 	@Override
 	public Result add(EmployerUser employerUser, String passwordAgain) {
-		
+
 		if (!BaseCompanyUserValidator.checkValues(employerUser).isSuccess())
 
 			return new ErrorResult(BaseCompanyUserValidator.checkValues(employerUser).getMessage());
@@ -81,7 +81,7 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		//systemManagerVerificationManager.add(employerUser);
 
 		return new SuccessResult("İşveren kayıt edildi");
-		
+
 	}
-	
+
 }

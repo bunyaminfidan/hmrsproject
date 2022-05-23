@@ -1,9 +1,7 @@
 package javaCamp.hmrs.core.utilities.helpers;
 
 import javaCamp.hmrs.dataAccess.abstracts.JobPositionDao;
-import javaCamp.hmrs.dataAccess.abstracts.UserDao;
 import javaCamp.hmrs.entites.concretes.JobPosition;
-import javaCamp.hmrs.entites.concretes.User;
 
 public class GetJobPositionHelper {
 	

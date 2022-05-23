@@ -3,7 +3,6 @@ package javaCamp.hmrs.business.concretes;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +14,14 @@ import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
-import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
 import javaCamp.hmrs.core.utilities.verification.email.JobSeekerEmailApproveService;
 import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
-import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.BaseIndividualUserDao;
-import javaCamp.hmrs.dataAccess.abstracts.JobSeekerMernisApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
-import javaCamp.hmrs.entites.concretes.BaseIndividualUser;
 import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerUser;
-import javaCamp.hmrs.entites.concretes.SystemUser;
 
 @Service
 public class JobSeekerUserManager extends BaseIndividualUserManager implements JobSeekerUserService {

@@ -1,18 +1,14 @@
 package javaCamp.hmrs.core.utilities.validation;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
-import javaCamp.hmrs.entites.concretes.JobSeekerUser;
-import javaCamp.hmrs.entites.concretes.SystemUser;
 import javaCamp.hmrs.entites.concretes.User;
-import net.bytebuddy.asm.Advice.Local;
 
 public class BaseIndividualValidator {
-	
+
 	public static Result checkValuesUser(User user, String passwordAgain) {
 
 		Result emailVaid = EmailValidator.valid(user.getEmail());
@@ -35,7 +31,10 @@ public class BaseIndividualValidator {
 		Result nationalityIdValid = NationalityIdValidator.valid(natioanlityId);
 		Result dateOfBirthValid = DateOfBirthValidator.valid(dateOfBirth);
 
-		if (dateOfBirth == null)
+//		if (dateOfBirth == null)
+//			return new ErrorResult("Dogum tarihi boş olamaz");
+		
+		if (!dateOfBirthValid.isSuccess())
 			return new ErrorResult("Dogum tarihi boş olamaz");
 
 		if (!firstNameValid.isSuccess())

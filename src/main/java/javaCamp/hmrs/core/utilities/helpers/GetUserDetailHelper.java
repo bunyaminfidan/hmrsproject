@@ -1,8 +1,5 @@
 package javaCamp.hmrs.core.utilities.helpers;
 
-import javaCamp.hmrs.core.utilities.results.DataResult;
-import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
-import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.SystemUserDao;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;

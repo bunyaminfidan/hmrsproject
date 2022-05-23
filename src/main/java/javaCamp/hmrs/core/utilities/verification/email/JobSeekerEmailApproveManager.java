@@ -9,13 +9,10 @@ import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.ErrorDataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
-import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.JobSeekerEmailApproveDao;
-import javaCamp.hmrs.entites.concretes.BaseEmailApprove;
 import javaCamp.hmrs.entites.concretes.EmployerEmailApprove;
 import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
-import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class JobSeekerEmailApproveManager extends EmailVerificationManager implements JobSeekerEmailApproveService {

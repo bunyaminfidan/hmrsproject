@@ -4,9 +4,7 @@ import java.util.List;
 
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
-import javaCamp.hmrs.entites.concretes.BaseIndividualUser;
 import javaCamp.hmrs.entites.concretes.SystemUser;
-import javaCamp.hmrs.entites.concretes.User;
 
 public interface SystemUserService extends BaseIndividualUserService {
 	

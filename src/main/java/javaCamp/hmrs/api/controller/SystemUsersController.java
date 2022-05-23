@@ -14,7 +14,6 @@ import javaCamp.hmrs.business.abstracts.BaseIndividualUserService;
 import javaCamp.hmrs.business.abstracts.SystemUserService;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
-import javaCamp.hmrs.entites.concretes.BaseIndividualUser;
 import javaCamp.hmrs.entites.concretes.SystemUser;
 
 @RestController

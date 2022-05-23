@@ -10,7 +10,6 @@ import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.dataAccess.abstracts.SystemManagerEmployerUserApproveDao;
-import javaCamp.hmrs.entites.concretes.EmployerUser;
 import javaCamp.hmrs.entites.concretes.SystemManagerEmployerUserApprove;
 
 @Service

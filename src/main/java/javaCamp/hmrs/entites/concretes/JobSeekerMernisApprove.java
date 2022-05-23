@@ -1,11 +1,8 @@
 package javaCamp.hmrs.entites.concretes;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

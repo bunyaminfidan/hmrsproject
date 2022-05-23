@@ -3,9 +3,7 @@ package javaCamp.hmrs.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javaCamp.hmrs.business.abstracts.ApproveService;
-import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
-import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.dataAccess.abstracts.ApproveDao;
 import javaCamp.hmrs.entites.concretes.Approve;

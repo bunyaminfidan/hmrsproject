@@ -14,7 +14,6 @@ import javaCamp.hmrs.business.abstracts.JobPositionService;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.entites.concretes.JobPosition;
-import javaCamp.hmrs.entites.concretes.User;
 
 @RestController
 @RequestMapping("/api/jobpositions")

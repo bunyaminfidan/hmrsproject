@@ -1,9 +1,8 @@
 package javaCamp.hmrs.entites.concretes;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrimaryKeyJoinColumn;
+
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

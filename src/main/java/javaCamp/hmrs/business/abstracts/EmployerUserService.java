@@ -6,9 +6,8 @@ import java.util.List;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
-import javaCamp.hmrs.entites.concretes.User;
 
-public interface EmployerUserService {
+public interface EmployerUserService extends UserService {
 	
 	DataResult<List<EmployerUser>> getAll();
 	

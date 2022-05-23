@@ -4,15 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.verification.systemManager.SystemManagerVerificationService;
-import javaCamp.hmrs.entites.concretes.SystemManagerEmployerUserApprove;
-import javaCamp.hmrs.entites.concretes.User;
 
 @RestController
 @RequestMapping("/api/approves/systemmanageremployeruserapproves")

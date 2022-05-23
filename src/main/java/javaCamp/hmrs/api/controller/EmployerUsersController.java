@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javaCamp.hmrs.business.abstracts.EmployerUserService;
 import javaCamp.hmrs.core.utilities.results.DataResult;
-import javaCamp.hmrs.core.utilities.results.ErrorResult;
 import javaCamp.hmrs.core.utilities.results.Result;
-import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.entites.concretes.EmployerUser;
 
 @RestController

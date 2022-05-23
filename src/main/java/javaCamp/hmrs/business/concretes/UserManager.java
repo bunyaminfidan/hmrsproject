@@ -11,15 +11,13 @@ import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.dataAccess.abstracts.UserDao;
-import javaCamp.hmrs.entites.concretes.Approve;
 import javaCamp.hmrs.entites.concretes.User;
 
 @Service
 public class UserManager implements UserService {
 
 	UserDao userDao;
-
-
+	
 	@Autowired
 	public UserManager(UserDao userDao) {
 		this.userDao = userDao;

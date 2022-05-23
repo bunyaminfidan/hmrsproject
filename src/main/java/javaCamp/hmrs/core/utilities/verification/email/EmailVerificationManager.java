@@ -1,17 +1,14 @@
 package javaCamp.hmrs.core.utilities.verification.email;
 
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javaCamp.hmrs.core.utilities.helpers.RandomUUIDCodeHelper;
-import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.entites.concretes.BaseEmailApprove;
-import javaCamp.hmrs.entites.concretes.JobSeekerEmailApprove;
-import javaCamp.hmrs.entites.concretes.User;
+
 
 @Service
 public class EmailVerificationManager implements EmailVerificationService {

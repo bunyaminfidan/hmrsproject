@@ -17,6 +17,7 @@ import javaCamp.hmrs.core.utilities.results.SuccessDataResult;
 import javaCamp.hmrs.core.utilities.results.SuccessResult;
 import javaCamp.hmrs.core.utilities.validation.BaseIndividualValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
+import javaCamp.hmrs.core.utilities.verification.email.JobSeekerEmailApproveService;
 import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.dataAccess.abstracts.BaseEmailApproveDao;
 import javaCamp.hmrs.dataAccess.abstracts.BaseIndividualUserDao;
@@ -33,6 +34,8 @@ public class JobSeekerUserManager extends BaseIndividualUserManager implements J
 
 	JobSeekerEmailApprove jobSeekerEmailApprove = new JobSeekerEmailApprove();
 	private JobSeekerUserDao jobSeekerUserDao;
+	
+	private JobSeekerEmailApproveService jobSeekerEmailApproveService;
 
 	@Qualifier("emailVerificationManager")
 	private EmailVerificationService emailVerificationService;
@@ -42,12 +45,14 @@ public class JobSeekerUserManager extends BaseIndividualUserManager implements J
 
 	public JobSeekerUserManager(UserDao userDao, BaseIndividualUserDao baseIndividualUserDao,
 			JobSeekerUserDao jobSeekerUserDao,
+			JobSeekerEmailApproveService jobSeekerEmailApproveService,
 			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService,
 			@Qualifier("mernisVerificationManager") MernisVerificationService mernisVerificationService) {
 		super(userDao, baseIndividualUserDao, mernisVerificationService);
 		this.jobSeekerUserDao = jobSeekerUserDao;
 		this.emailVerificationService = emailVerificationService;
 		this.mernisVerificationService = mernisVerificationService;
+		this.jobSeekerEmailApproveService = jobSeekerEmailApproveService;
 
 	}
 
@@ -91,6 +96,14 @@ public class JobSeekerUserManager extends BaseIndividualUserManager implements J
 	public DataResult<JobSeekerUser> getByNationalityId(String nationalityId) {
 		return new SuccessDataResult<JobSeekerUser>(this.jobSeekerUserDao.findByNationalityIdIs(nationalityId),
 				"Tc Kimlik Numarasına göre getirildi");
+	}
+	
+	@Override
+	public Result verifyemail(String code) {
+		if (this.jobSeekerEmailApproveService.verifyemail(code).isSuccess())
+			return new SuccessResult(this.jobSeekerEmailApproveService.verifyemail(code).getMessage());
+
+		return new ErrorResult(this.jobSeekerEmailApproveService.verifyemail(code).getMessage());
 	}
 
 

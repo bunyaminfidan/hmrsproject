@@ -10,4 +10,6 @@ public interface BaseIndividualUserService {
 
 	Result add(BaseIndividualUser baseIndividualUser, String passwordAgain);
 	
+	Result verifyemail(String code );
+	
 }

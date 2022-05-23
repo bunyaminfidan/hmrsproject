@@ -54,4 +54,10 @@ public class BaseIndividualUserManager extends UserManager implements BaseIndivi
 		
 		return new SuccessResult("Kayıt edildi");
 	}
+
+	@Override
+	public Result verifyemail(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -21,6 +21,7 @@ import javaCamp.hmrs.core.utilities.validation.EmailIsWebsiteDomainValidator;
 import javaCamp.hmrs.core.utilities.validation.PhoneNumberValidator;
 import javaCamp.hmrs.core.utilities.validation.WebsiteValidator;
 import javaCamp.hmrs.core.utilities.verification.email.EmailVerificationService;
+import javaCamp.hmrs.core.utilities.verification.email.EmployerEmailApproveService;
 import javaCamp.hmrs.core.utilities.verification.mernis.MernisVerificationService;
 import javaCamp.hmrs.core.utilities.verification.systemManager.SystemManagerVerificationManager;
 import javaCamp.hmrs.dataAccess.abstracts.EmployerUserDao;
@@ -34,20 +35,23 @@ import javaCamp.hmrs.entites.concretes.User;
 public class EmployerUserManager extends UserManager implements EmployerUserService {
 
 	private EmployerUserDao employerUserDao;
+	private EmployerEmailApproveService employerEmailApproveService;
 
 	@Qualifier("emailVerificationManager")
 	private EmailVerificationService emailVerificationService;
-	
+
 	private SystemManagerVerificationManager systemManagerVerificationManager;
 
 	@Autowired
 	public EmployerUserManager(UserDao userDao, EmployerUserDao employerUserDao,
 			@Qualifier("emailVerificationManager") EmailVerificationService emailVerificationService,
-			SystemManagerVerificationManager systemManagerVerificationManager) {
+			SystemManagerVerificationManager systemManagerVerificationManager,
+			EmployerEmailApproveService employerEmailApproveService) {
 		super(userDao);
 		this.employerUserDao = employerUserDao;
 		this.emailVerificationService = emailVerificationService;
-		this.systemManagerVerificationManager=systemManagerVerificationManager;
+		this.systemManagerVerificationManager = systemManagerVerificationManager;
+		this.employerEmailApproveService = employerEmailApproveService;
 	}
 
 	@Override
@@ -76,11 +80,19 @@ public class EmployerUserManager extends UserManager implements EmployerUserServ
 		employerEmailApprove.setApproved(false);
 
 		this.emailVerificationService.add(employerEmailApprove);
-		
-		
-		//systemManagerVerificationManager.add(employerUser);
+
+		// systemManagerVerificationManager.add(employerUser);
 
 		return new SuccessResult("İşveren kayıt edildi");
+
+	}
+
+	@Override
+	public Result verifyemail(String code) {
+		if (this.employerEmailApproveService.verifyemail(code).isSuccess())
+			return new SuccessResult(this.employerEmailApproveService.verifyemail(code).getMessage());
+
+		return new ErrorResult(this.employerEmailApproveService.verifyemail(code).getMessage());
 
 	}
 

@@ -14,6 +14,8 @@ public interface EmployerUserService {
 	
 	Result add(EmployerUser employerUser, String passwordAgain);
 	
+	Result verifyemail(String code );	
+	
 
 
 }

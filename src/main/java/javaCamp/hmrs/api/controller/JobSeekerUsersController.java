@@ -48,5 +48,12 @@ public class JobSeekerUsersController {
 	DataResult<JobSeekerUser> getByNationalityId(@RequestParam String nationalityId) {
 		return this.jobSeekerUserService.getByNationalityId(nationalityId);
 	}
+	
+	@GetMapping("/verifyemail")
+	Result verifyEmail(@RequestParam String code) {
+
+		return this.jobSeekerUserService.verifyemail(code);
+
+	}
 
 }

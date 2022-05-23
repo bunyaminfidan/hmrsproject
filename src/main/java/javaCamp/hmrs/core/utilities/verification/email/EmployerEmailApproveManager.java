@@ -43,7 +43,7 @@ public class EmployerEmailApproveManager extends EmailVerificationManager implem
 			approve.setApprovalDate(LocalDate.now());
 
 			employerEmailApproveDao.save(approve);
-			return new SuccessDataResult<EmployerEmailApprove>("Email doğrolama başarılı");
+			return new SuccessDataResult<EmployerEmailApprove>("Email doğrulama işlemi başarılı");
 
 		} else {
 			return new ErrorDataResult<EmployerEmailApprove>(null, "Email doğrulanamadı");

@@ -43,7 +43,7 @@ public class UserManager implements UserService {
 	@Override
 	public DataResult<User> getByEmail(String email) {
 
-		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
+		return new SuccessDataResult<User>(this.userDao.findByEmail(email),"Kullanıcı bilgileri getirildi");
 
 	}
 

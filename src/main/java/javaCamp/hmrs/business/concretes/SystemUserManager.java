@@ -32,20 +32,28 @@ public class SystemUserManager extends BaseIndividualUserManager implements Syst
 
 	@Autowired
 	public SystemUserManager(UserDao userDao, BaseIndividualUserDao baseIndividualUserDao,
+
 			MernisVerificationService mernisVerificationService, SystemUserDao systemUserDao) {
 		super(userDao, baseIndividualUserDao, mernisVerificationService);
 		this.systemUserDao = systemUserDao;
 
 	}
-
+	
 	@Override
-	public Result add(BaseIndividualUser baseIndividualUser, String passwordAgain) {
-
-		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, baseIndividualUser.getNationalityId()))
+	public Result add(SystemUser systemUser, String passwordAgain) {
+		if (GetUserDetailHelper.getSystemUserByNationalityId(systemUserDao, systemUser.getNationalityId()))
 			return new ErrorResult("Tc Kimlik Numarası sistemde kayıtlı");
+		
+		if (!super.add(systemUser, passwordAgain).isSuccess()) 
+			return new ErrorResult(super.add(systemUser, passwordAgain).getMessage());
+		
 
-		return super.add(baseIndividualUser, passwordAgain);
+		this.systemUserDao.save(systemUser);
+
+		return new SuccessResult("Sistem personeli kayıt edildi");
 	}
+
+
 
 	@Override
 	public DataResult<SystemUser> getByNationalityId(String nationalityId) {
@@ -58,5 +66,11 @@ public class SystemUserManager extends BaseIndividualUserManager implements Syst
 
 		return new SuccessDataResult<>(this.systemUserDao.findAll(), "Sistem personelleri getirildi");
 	}
+
+
+
+
+
+
 
 }

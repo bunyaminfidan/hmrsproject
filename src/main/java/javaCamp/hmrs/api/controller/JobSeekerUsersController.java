@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javaCamp.hmrs.business.abstracts.JobSeekerUserService;
 import javaCamp.hmrs.core.utilities.results.DataResult;
 import javaCamp.hmrs.core.utilities.results.Result;
+import javaCamp.hmrs.entites.concretes.BaseIndividualUser;
 import javaCamp.hmrs.entites.concretes.JobSeekerUser;
 import javaCamp.hmrs.entites.concretes.SystemUser;
 

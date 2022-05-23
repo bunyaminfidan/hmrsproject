@@ -41,9 +41,9 @@ public class SystemUsersController {
 	}
 
 	@PostMapping("/add")
-	Result add(@RequestBody SystemUser systemUser, @RequestParam String passwordAgain) {
+	Result add(@RequestBody SystemUser systemUser , @RequestParam String passwordAgain) {
 
-		return this.baseIndividualUserService.add(systemUser, passwordAgain);
+		return this.systemUserService.add(systemUser, passwordAgain);
 
 	}
 

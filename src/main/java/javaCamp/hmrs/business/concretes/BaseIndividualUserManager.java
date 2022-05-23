@@ -36,11 +36,6 @@ public class BaseIndividualUserManager extends UserManager implements BaseIndivi
 		this.mernisVerificationService = mernisVerificationService;
 	}
 
-
-
-	
-
-
 	@Override
 	public Result add(BaseIndividualUser baseIndividualUser, String passwordAgain) {
 		// Girilen değerlerin uygunluğunu kontrol eder
@@ -56,27 +51,7 @@ public class BaseIndividualUserManager extends UserManager implements BaseIndivi
 		// Kullanıcı email ve password kontrol ve kayıt eder
 		if (!super.add(baseIndividualUser, passwordAgain).isSuccess())
 			return new ErrorResult(super.add(baseIndividualUser, passwordAgain).getMessage());
-
-		baseIndividualUserDao.save(baseIndividualUser);
 		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return new SuccessResult("Sistem personeli kayıt edildi");
+		return new SuccessResult("Kayıt edildi");
 	}
 }

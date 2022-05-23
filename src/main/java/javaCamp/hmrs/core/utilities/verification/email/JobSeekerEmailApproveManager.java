@@ -51,7 +51,7 @@ public class JobSeekerEmailApproveManager extends EmailVerificationManager imple
 			approve.setApprovalDate(LocalDate.now());
 
 			jobSeekerEmailApproveDao.save(approve);
-			return new SuccessDataResult<JobSeekerEmailApprove>("Email doğrolama başarılı");
+			return new SuccessDataResult<JobSeekerEmailApprove>("Email doğrulama işlemi başarılı");
 
 		} else {
 			return new ErrorDataResult<EmployerEmailApprove>(null, "Email doğrulanamadı");

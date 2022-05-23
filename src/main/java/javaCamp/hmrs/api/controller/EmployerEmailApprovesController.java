@@ -30,12 +30,12 @@ public class EmployerEmailApprovesController {
 	}
 
 	
-	//Kod bilgilerini getirir
-	@GetMapping("/getapprovedbyverifycode")
-	Result getApproveByVerifyCode(@RequestParam String code) {
-		return this.employerEmailApproveService.getApproveByVerifyCode(code);
-
-	}
+//	//Kod bilgilerini getirir
+//	@GetMapping("/getapprovedbyverifycode")
+//	Result getApproveByVerifyCode(@RequestParam String code) {
+//		return this.employerEmailApproveService.getApproveByVerifyCode(code);
+//
+//	}
 	
 	
 }

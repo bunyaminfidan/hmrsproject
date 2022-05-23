@@ -41,11 +41,11 @@ public class JobSeekerEmailApprovesController {
 	}
 
 	
-	//Kod bilgilerini getirir
-	@GetMapping("/getapprovedbyverifycode")
-	Result getApproveByVerifyCode(@RequestParam String code) {
-		return this.jobSeekerEmailApproveService.getApproveByVerifyCode(code);
-
-	}
+//	//Kod bilgilerini getirir
+//	@GetMapping("/getapprovedbyverifycode")
+//	Result getApproveByVerifyCode(@RequestParam String code) {
+//		return this.jobSeekerEmailApproveService.getApproveByVerifyCode(code);
+//
+//	}
 
 }

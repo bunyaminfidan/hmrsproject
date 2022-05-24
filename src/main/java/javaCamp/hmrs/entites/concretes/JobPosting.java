@@ -45,8 +45,8 @@ public class JobPosting {
 	@Column(name="max_salary")
 	private double maxSalary;
 	
-	@Column(name="number_of_open_position")
-	private int numberOfOpenPosition;
+	@Column(name="number_of_position")
+	private int numberOfPosition;
 	
 	@Column(name="application_deadline")
 	private LocalDate applicationDeadline;

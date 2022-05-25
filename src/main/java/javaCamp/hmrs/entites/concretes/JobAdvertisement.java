@@ -28,15 +28,6 @@ public class JobAdvertisement {
 	@Column(name = "id", nullable = false)
 	private int id;
 
-//	@Column(name="employer_id")
-//	private int employerId;
-
-//	@Column(name="job_position_id")
-//	private int jobPositionId;
-
-//	@Column(name="city_id")
-//	private int cityId;
-
 	@Column(name = "min_salary")
 	private double minSalary;
 
@@ -54,7 +45,7 @@ public class JobAdvertisement {
 
 	@Column(name = "status")
 	private boolean status;
-
+	
 	@ManyToOne()
 	@JoinColumn(name = "city_id")
 	private City city;
@@ -66,5 +57,6 @@ public class JobAdvertisement {
 	@ManyToOne()
 	@JoinColumn(name = "job_position_id")
 	private JobPosition jobPosition;
+
 
 }

@@ -1,6 +1,8 @@
 package javaCamp.hmrs.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +24,29 @@ public class JobAdvertisementsController {
 		this.jobAdvertisementService = jobAdvertisementService;
 	}
 
-	@PostMapping("/add")
-	Result add(@RequestBody JobAdvertisement jobAdvertisement) {
+//	@PostMapping("/add")
+//	Result add(@RequestBody JobAdvertisement jobAdvertisement) {
+//
+//		return this.jobAdvertisementService.add(jobAdvertisement);
+//	}
+	
+	
+	@PostMapping("add")
+	public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement) {
+		
+		
+		var result = jobAdvertisementService.add(jobAdvertisement);
+		System.out.println(result.getMessage());
+		if(!result.isSuccess())return ResponseEntity.badRequest().body(result);
+		
+		return ResponseEntity.ok(result);
+	}
+	
 
-		return this.jobAdvertisementService.add(jobAdvertisement);
+	@GetMapping("/getAll")
+	Result getAll() {
+
+		return this.jobAdvertisementService.getAll();
 	}
 
 }

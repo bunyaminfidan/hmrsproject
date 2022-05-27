@@ -1,5 +1,7 @@
 package javaCamp.hmrs.api.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,24 +26,13 @@ public class JobAdvertisementsController {
 		this.jobAdvertisementService = jobAdvertisementService;
 	}
 
-//	@PostMapping("/add")
-//	Result add(@RequestBody JobAdvertisement jobAdvertisement) {
-//
-//		return this.jobAdvertisementService.add(jobAdvertisement);
-//	}
-	
-	
-	@PostMapping("add")
-	public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement) {
-		
-		
-		var result = jobAdvertisementService.add(jobAdvertisement);
-		System.out.println(result.getMessage());
-		if(!result.isSuccess())return ResponseEntity.badRequest().body(result);
-		
-		return ResponseEntity.ok(result);
+	@PostMapping("/add")
+	Result add(@RequestBody JobAdvertisement jobAdvertisement) {
+		jobAdvertisement.setApplicationDeadline(LocalDate.now());
+		return this.jobAdvertisementService.add(jobAdvertisement);
 	}
-	
+
+
 
 	@GetMapping("/getAll")
 	Result getAll() {

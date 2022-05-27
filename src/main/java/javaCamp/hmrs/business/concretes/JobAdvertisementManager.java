@@ -28,7 +28,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 	@Override
 	public Result add(JobAdvertisement jobAdvertisement) {
-		jobAdvertisement.setApplicationDeadline(LocalDate.now());
+	
 
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("İş ilanı kayıt edildi");

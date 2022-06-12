@@ -28,7 +28,8 @@ public class JobAdvertisementsController {
 
 	@PostMapping("/add")
 	Result add(@RequestBody JobAdvertisement jobAdvertisement) {
-		jobAdvertisement.setApplicationDeadline(LocalDate.now());
+		jobAdvertisement.setApplicationDeadline(LocalDate.of(2022, 12, 12));
+		jobAdvertisement.setReleaseDate(LocalDate.now());
 		return this.jobAdvertisementService.add(jobAdvertisement);
 	}
 

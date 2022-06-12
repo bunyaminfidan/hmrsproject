@@ -46,6 +46,9 @@ public class JobAdvertisement {
 
 	@Column(name = "application_deadline")
 	private LocalDate applicationDeadline;
+	
+	@Column(name = "release_date")
+	private LocalDate releaseDate;
 
 	@Column(name = "description")
 	private String description;
